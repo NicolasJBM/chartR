@@ -1,5 +1,6 @@
 #' Gadget to interactively create a DiagrammeR object.
-#' @return A DiagrammeR chart.
+#' @return Tables for nodes, relations and moderations serving as input for draw_nomnet.
+#' @seealso draw_nomnet
 #' @importFrom miniUI miniPage
 #' @importFrom miniUI gadgetTitleBar
 #' @importFrom miniUI miniTabstripPanel
@@ -9,7 +10,9 @@
 #' @importFrom shiny stopApp
 #' @importFrom shiny runGadget
 #' @importFrom shiny tags
+#' @importFrom shiny reactive
 #' @importFrom shiny reactiveValues
+#' @importFrom shiny observe
 #' @importFrom shiny observeEvent
 #' @importFrom shiny paneViewer
 #' @importFrom shinythemes shinytheme
@@ -72,17 +75,17 @@ create_nomnet <- function() {
     tables <- reactiveValues()
     nodes <- reactive({
       tibble::tibble(
-        label = c("Cause", "Effect", "Moderator"),
-        shape = c("ellipse", "ellipse", "ellipse"),
+        label = c("A", "B", "C"),
+        shape = factor(c("ellipse", "ellipse", "ellipse"), levels = c("ellipse","rectangle")),
         x = c(0, 4, 2),
         y = c(0, 0, 2),
         width = 2,
         height = 0.75,
         penwidth = 1,
-        color = "black",
-        fillcolor = "white",
+        color = as.character("black"),
+        fillcolor = as.character("white"),
         fontsize = 14,
-        fontcolor = "black",
+        fontcolor = as.character("black"),
         include = c(TRUE, TRUE, TRUE)
       )
     })
@@ -93,16 +96,16 @@ create_nomnet <- function() {
     
     relations <- reactive({
       tibble::tibble(
-        relation = "",
-        source = factor(NA, levels = unique(tables$nodes$label)),
-        target = factor(NA, levels = unique(tables$nodes$label)),
-        style = factor(NA, levels = c("solid","dashed")),
-        color = "black",
-        fontcolor = "black",
+        relation = "A2B",
+        source = factor("A", levels = unique(nodes()$label)),
+        target = factor("B", levels = unique(nodes()$label)),
+        style = factor("solid", levels = c("solid","dashed")),
+        color = as.character("black"),
+        fontcolor = as.character("black"),
         fontsize = 10,
         penwidth = 1,
-        arrowhead = factor(NA, levels = c("normal","none")),
-        label = "+/-",
+        arrowhead = factor("normal", levels = c("normal","none")),
+        label = as.character("+/-"),
         include = c(TRUE)
       )
     })
@@ -113,15 +116,15 @@ create_nomnet <- function() {
     
     moderations <- reactive({
       tibble::tibble(
-        source = factor(NA, levels = unique(tables$nodes$label)),
-        target = factor(NA, levels = unique(tables$relations$relation)),
-        style = "solid",
-        color = "black",
-        fontcolor = "black",
+        source = factor("C", levels = unique(nodes()$label)),
+        target = factor("A2B", levels = unique(relations()$relation)),
+        style = factor("solid", levels = c("solid","dashed")),
+        color = as.character("black"),
+        fontcolor = as.character("black"),
         fontsize = 10,
         penwidth = 1,
-        arrowhead = factor(NA, levels = c("normal","none")),
-        label = "+/-",
+        arrowhead = factor("normal", levels = c("normal","none")),
+        label = as.character("+/-"),
         include = c(TRUE)
       )
     })
@@ -130,29 +133,31 @@ create_nomnet <- function() {
     })
     
     
+    
     # Create interface for nodes
     
     output$enter_nodes <- rhandsontable::renderRHandsontable({
-      rhandsontable::rhandsontable(tables$nodes, height = 400, width = "100%", stretchH = "all") %>%
-        rhandsontable::hot_context_menu(allowRowEdit = FALSE, allowColEdit = FALSE)
+      prep_nodes <- tables$nodes
+      if (nrow(prep_nodes) == 0) prep_nodes[1,"color"] <- "black"
+      rhandsontable::rhandsontable(prep_nodes, height = 400, width = "100%", stretchH = "all") %>%
+        rhandsontable::hot_context_menu(allowRowEdit = TRUE, allowColEdit = FALSE)
     })
     
     observeEvent(input$update_nodes,{
       new_nodes <- suppressWarnings(rhandsontable::hot_to_r(input$enter_nodes))
-      labels <- unique(new_nodes$label)
+      new_nodes <- new_nodes %>%
+        dplyr::mutate_if(is.factor, as.character)
       
       new_relations <- tables$relations %>%
-        dplyr::filter(source %in% labels, target %in% labels) %>%
-        dplyr::mutate(
-          source = factor(source, levels = labels),
-          target = factor(target, levels = labels)
+        dplyr::filter(
+          source %in% unique(unlist(new_nodes$label)),
+          target %in% unique(unlist(new_nodes$label))
         )
       
       new_moderations <- tables$moderations %>%
-        dplyr::filter(source %in% labels, target %in% new_relations$relation) %>%
-        dplyr::mutate(
-          source = factor(source, levels = labels),
-          target = factor(target, levels = new_relations$relation)
+        dplyr::filter(
+          source %in% unique(unlist(new_nodes$label)),
+          target %in% unique(unlist(new_relations$relation))
         )
       
       tables$nodes <- new_nodes
@@ -161,7 +166,11 @@ create_nomnet <- function() {
     })
     
     output$draw_nodes <- DiagrammeR::renderGrViz({
-      chartR::draw_nomnet(nodes = tables$nodes, relations = NULL, moderations = NULL) %>%
+      chartR::draw_nomnet(
+        nodes = na.omit(tables$nodes),
+        relations = na.omit(tables$relations),
+        moderations = na.omit(tables$moderations)
+      ) %>%
         DiagrammeR::render_graph()
     })
     
@@ -169,25 +178,42 @@ create_nomnet <- function() {
     # Create interface for relations
     
     output$enter_relations <- rhandsontable::renderRHandsontable({
-      rhandsontable::rhandsontable(tables$relations, height = 400, width = "100%", stretchH = "all") %>%
-        rhandsontable::hot_context_menu(allowRowEdit = FALSE, allowColEdit = FALSE)
+      prep_relations <- tables$relations
+      if (nrow(prep_relations) == 0) prep_relations[1,"color"] <- "black"
+      labels <- unique(unlist(tables$nodes$label))
+      prep_relations <- prep_relations %>%
+        dplyr::mutate(
+          source = factor(source, levels = labels),
+          target = factor(target, levels = labels)
+        )
+      rhandsontable::rhandsontable(prep_relations, height = 400, width = "100%", stretchH = "all") %>%
+        rhandsontable::hot_context_menu(allowRowEdit = TRUE, allowColEdit = FALSE)
     })
     
     observeEvent(input$update_relations,{
       new_relations <- suppressWarnings(rhandsontable::hot_to_r(input$enter_relations))
+      labels <- unique(unlist(tables$nodes$label))
+      
+      new_relations <- new_relations %>%
+        dplyr::mutate_if(is.factor, as.character) %>%
+        dplyr::filter(source %in% labels, target %in% labels)
       
       new_moderations <- tables$moderations %>%
-        dplyr::filter(source %in% labels, target %in% new_relations$relation) %>%
-        dplyr::mutate(
-          source = factor(source, levels = labels),
-          target = factor(target, levels = new_relations$relation)
+        dplyr::filter(
+          source %in% unique(unlist(tables$nodes$label)),
+          target %in% unique(unlist(new_relations$relation))
         )
+      
       tables$relations <- new_relations
       tables$moderations <- new_moderations
     })
     
     output$draw_relations <- DiagrammeR::renderGrViz({
-      chartR::draw_nomnet(nodes = tables$nodes, relations = tables$relations, moderations = NULL) %>%
+      chartR::draw_nomnet(
+        nodes = na.omit(tables$nodes),
+        relations = na.omit(tables$relations),
+        moderations = na.omit(tables$moderations)
+      ) %>%
         DiagrammeR::render_graph()
     })
     
@@ -195,29 +221,51 @@ create_nomnet <- function() {
     # Create interface for moderations
     
     output$enter_moderations <- rhandsontable::renderRHandsontable({
-      rhandsontable::rhandsontable(tables$moderations, height = 400, width = "100%", stretchH = "all") %>%
-        rhandsontable::hot_context_menu(allowRowEdit = FALSE, allowColEdit = FALSE)
+      prep_moderations <- tables$moderations
+      if (nrow(prep_moderations) == 0) prep_moderations[1,"color"] <- "black"
+      labels <- unique(unlist(tables$nodes$label))
+      relations <- c("", unique(unlist(tables$relations$relation)))
+      prep_moderations <- prep_moderations %>%
+        dplyr::mutate(
+          source = factor(source, levels = labels),
+          target = factor(target, levels = relations)
+        )
+      rhandsontable::rhandsontable(prep_moderations, height = 400, width = "100%", stretchH = "all") %>%
+        rhandsontable::hot_context_menu(allowRowEdit = TRUE, allowColEdit = FALSE)
     })
     
     observeEvent(input$update_moderations,{
       new_moderations <- suppressWarnings(rhandsontable::hot_to_r(input$enter_moderations))
+      labels <- unique(unlist(tables$nodes$label))
+      relations <- unique(unlist(tables$relations$relation))
+      
+      new_moderations <- new_moderations %>%
+        dplyr::filter(source %in% labels, target %in% relations)
+      
       tables$moderations <- new_moderations
     })
     
     output$draw_moderations <- DiagrammeR::renderGrViz({
-      chartR::draw_nomnet(nodes = tables$nodes, relations = tables$relations, moderations = tables$moderations) %>%
+      chartR::draw_nomnet(
+        nodes = na.omit(tables$nodes),
+        relations = na.omit(tables$relations),
+        moderations = na.omit(tables$moderations)
+      ) %>%
         DiagrammeR::render_graph()
     })
     
     
-    
     observeEvent(input$done, {
       
-      chart <- chartR::draw_nomnet(nodes = tables$nodes, relations = tables$relations, moderations = tables$moderations)
-      return(chart)
+      base_chart <- list(
+        nodes = na.omit(tables$nodes),
+        relations = na.omit(tables$relations),
+        moderations = na.omit(tables$moderations)
+      )
       
-      stopApp()
+      stopApp(base_chart)
     })
+    
   }
   runGadget(ui, server, viewer = paneViewer(minHeight = "maximize"))
 }

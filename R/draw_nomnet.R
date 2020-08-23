@@ -55,6 +55,7 @@
 #' @importFrom dplyr left_join
 #' @importFrom dplyr select
 #' @importFrom dplyr mutate
+#' @importFrom dplyr mutate_if
 #' @importFrom dplyr %>%
 #' @importFrom tibble rowid_to_column
 #' @importFrom DiagrammeR add_node
@@ -83,28 +84,34 @@ draw_nomnet <- function(nodes, relations, moderations) {
   # Necessary information to tables for connections and create graph:
 
   nodes <- nodes %>%
+    dplyr::mutate_if(is.factor, as.character) %>%
     dplyr::filter(include == TRUE) %>%
     tibble::rowid_to_column(var = "node_id")
 
-  relations <- relations %>%
-    dplyr::filter(include == TRUE) %>%
-    tibble::rowid_to_column(var = "relation_id") %>%
-    dplyr::left_join(
-      dplyr::select(nodes, source = label, from = node_id, from_x = x, from_y = y),
-      by = "source"
-    ) %>%
-    dplyr::left_join(
-      dplyr::select(nodes, target = label, to = node_id, to_x = x, to_y = y),
-      by = "target"
-    ) %>%
-    dplyr::mutate(
-      by = nrow(nodes) + relation_id,
-      by_x = (from_x + to_x) / 2,
-      by_y = (from_y + to_y) / 2
-    )
+  
+  if (nrow(relations) > 0) {
+    relations <- relations %>%
+      dplyr::mutate_if(is.factor, as.character) %>%
+      dplyr::filter(include == TRUE) %>%
+      tibble::rowid_to_column(var = "relation_id") %>%
+      dplyr::left_join(
+        dplyr::select(nodes, source = label, from = node_id, from_x = x, from_y = y),
+        by = "source"
+      ) %>%
+      dplyr::left_join(
+        dplyr::select(nodes, target = label, to = node_id, to_x = x, to_y = y),
+        by = "target"
+      ) %>%
+      dplyr::mutate(
+        by = nrow(nodes) + relation_id,
+        by_x = (from_x + to_x) / 2,
+        by_y = (from_y + to_y) / 2
+      )
+  }
 
   if (nrow(moderations) > 0) {
     moderations <- moderations %>%
+      dplyr::mutate_if(is.factor, as.character) %>%
       dplyr::filter(include == TRUE) %>%
       dplyr::left_join(
         dplyr::select(nodes, source = label, from = node_id),
@@ -143,52 +150,55 @@ draw_nomnet <- function(nodes, relations, moderations) {
 
   # Add the junctions between nodes:
 
-  for (i in 1:nrow(relations)) {
-    graph <- DiagrammeR::add_node(
-      graph,
-      label = "",
-      node_aes = DiagrammeR::node_aes(
-        x = relations$by_x[[i]],
-        y = relations$by_y[[i]],
-        width = 0,
-        height = 0,
-        penwidth = 0,
-        color = "grey50",
-        fillcolor = "grey50"
+  if (nrow(relations) > 0){
+    for (i in 1:nrow(relations)) {
+      graph <- DiagrammeR::add_node(
+        graph,
+        label = "",
+        node_aes = DiagrammeR::node_aes(
+          x = relations$by_x[[i]],
+          y = relations$by_y[[i]],
+          width = 0,
+          height = 0,
+          penwidth = 0,
+          color = "grey50",
+          fillcolor = "grey50"
+        )
       )
-    )
+    }
   }
-
 
   # Add the relationships:
 
-  for (i in 1:nrow(relations)) {
-    graph <- DiagrammeR::add_edge(
-      graph = graph,
-      from = relations$from[[i]],
-      to = relations$by[[i]],
-      edge_aes = DiagrammeR::edge_aes(
-        style = relations$style[[i]],
-        color = relations$color[[i]],
-        fontcolor = relations$fontcolor[[i]],
-        fontsize = relations$fontsize[[i]],
-        penwidth = relations$penwidth[[i]],
-        arrowhead = "none",
-        label = relations$label[[i]]
+  if (nrow(relations) > 0){
+    for (i in 1:nrow(relations)) {
+      graph <- DiagrammeR::add_edge(
+        graph = graph,
+        from = relations$from[[i]],
+        to = relations$by[[i]],
+        edge_aes = DiagrammeR::edge_aes(
+          style = relations$style[[i]],
+          color = relations$color[[i]],
+          fontcolor = relations$fontcolor[[i]],
+          fontsize = relations$fontsize[[i]],
+          penwidth = relations$penwidth[[i]],
+          arrowhead = "none",
+          label = relations$label[[i]]
+        )
       )
-    )
-    graph <- DiagrammeR::add_edge(
-      graph = graph,
-      from = relations$by[[i]],
-      to = relations$to[[i]],
-      edge_aes = DiagrammeR::edge_aes(
-        style = relations$style[[i]],
-        color = relations$color[[i]],
-        penwidth = relations$penwidth[[i]],
-        arrowhead = relations$arrowhead[[i]],
-        label = ""
+      graph <- DiagrammeR::add_edge(
+        graph = graph,
+        from = relations$by[[i]],
+        to = relations$to[[i]],
+        edge_aes = DiagrammeR::edge_aes(
+          style = relations$style[[i]],
+          color = relations$color[[i]],
+          penwidth = relations$penwidth[[i]],
+          arrowhead = relations$arrowhead[[i]],
+          label = ""
+        )
       )
-    )
+    }
   }
 
   # Add the moderations:

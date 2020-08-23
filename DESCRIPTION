@@ -30,4 +30,5 @@ Imports:
     plyr,
     grDevices,
     DiagrammeR,
-    rstudioapi
+    rstudioapi,
+    rhandsontable
