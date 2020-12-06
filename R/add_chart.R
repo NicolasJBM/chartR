@@ -1,31 +1,8 @@
 #' Gadget to insert various examples of charts in documents.
 #' @return A citation.
-#' @importFrom miniUI miniPage
-#' @importFrom miniUI gadgetTitleBar
-#' @importFrom miniUI miniTabstripPanel
-#' @importFrom miniUI miniTabPanel
-#' @importFrom miniUI miniContentPanel
-#' @importFrom shiny icon
-#' @importFrom shiny selectInput
-#' @importFrom shiny checkboxInput
-#' @importFrom shiny stopApp
-#' @importFrom shiny runGadget
-#' @importFrom shiny tags
-#' @importFrom shiny uiOutput
-#' @importFrom shiny plotOutput
-#' @importFrom shiny textOutput
-#' @importFrom shiny actionButton
-#' @importFrom shiny renderUI
-#' @importFrom shiny renderPlot
-#' @importFrom shiny renderText
-#' @importFrom shiny reactive
-#' @importFrom shiny observeEvent
-#' @importFrom shiny validate
-#' @importFrom shiny need
-#' @importFrom shiny fluidRow
-#' @importFrom shiny column
-#' @importFrom shiny paneViewer
-#' @importFrom shinythemes shinytheme
+#' @import miniUI
+#' @import shiny
+#' @import shinythemes
 #' @importFrom dplyr filter
 #' @importFrom dplyr %>%
 #' @importFrom stats na.omit

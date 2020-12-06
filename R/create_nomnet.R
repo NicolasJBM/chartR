@@ -1,21 +1,9 @@
 #' Gadget to interactively create a DiagrammeR object.
 #' @return Tables for nodes, relations and moderations serving as input for draw_nomnet.
 #' @seealso draw_nomnet
-#' @importFrom miniUI miniPage
-#' @importFrom miniUI gadgetTitleBar
-#' @importFrom miniUI miniTabstripPanel
-#' @importFrom miniUI miniTabPanel
-#' @importFrom miniUI miniContentPanel
-#' @importFrom shiny icon
-#' @importFrom shiny stopApp
-#' @importFrom shiny runGadget
-#' @importFrom shiny tags
-#' @importFrom shiny reactive
-#' @importFrom shiny reactiveValues
-#' @importFrom shiny observe
-#' @importFrom shiny observeEvent
-#' @importFrom shiny paneViewer
-#' @importFrom shinythemes shinytheme
+#' @import miniUI
+#' @import shiny
+#' @import shinythemes
 #' @importFrom dplyr filter
 #' @importFrom dplyr mutate
 #' @importFrom dplyr %>%

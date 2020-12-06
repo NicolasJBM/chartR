@@ -1,7 +1,7 @@
 Package: chartR
 Title: Toolbox to draw diagrams and create graphs in documents
 Version: 1.1
-Date: 2020-08-22
+Date: 2020-12-06
 Authors@R: 
     person(given = "Nicolas",
            family = "Mangin",
@@ -14,21 +14,22 @@ LazyData: true
 License: GPL-3 | file LICENSE
 Depends: R (>= 3.6)
 Roxygen: list(markdown = TRUE)
-RoxygenNote: 7.1.0
+RoxygenNote: 7.1.1
 VignetteBuilder: knitr
 Imports:
-    shiny,
+    knitr,
     miniUI,
+    shiny,
     shinythemes,
     dplyr,
-    tibble,
-    knitr,
+    stats,
     plotly,
     collapsibleTree,
     ndtv,
+    rstudioapi,
+    tibble,
+    rhandsontable,
+    DiagrammeR,
     ggplot2,
     plyr,
-    grDevices,
-    DiagrammeR,
-    rstudioapi,
-    rhandsontable
+    grDevices
