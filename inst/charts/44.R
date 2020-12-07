@@ -12,7 +12,7 @@ chart <- ggplot(
   scale_size(range = c(2, 12)) +
   scale_x_log10() +
   labs(x = "GDP per capita", y = "Life expectancy") +
-  writR::graph_theme(legend.position = "none")
+  chartR::graph_theme(legend.position = "none")
 
 chart <- ggplotly(chart, height = 600, width = 800) %>%
   animation_opts(frame = 1000,

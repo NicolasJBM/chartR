@@ -24,4 +24,4 @@ chart <- base %>%
   geom_text(color = "grey51", nudge_x = 0.35) +
   geom_text(aes(x = category, y = estimate, group = 1, label = paste0('(',round(std.error,2), ')')), color = "grey51", nudge_x = -0.35) +
   coord_flip() +
-  writR::graph_theme()
+  chartR::graph_theme()

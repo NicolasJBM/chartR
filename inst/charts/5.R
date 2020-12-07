@@ -1,7 +1,7 @@
 library(tibble)
 library(dplyr)
 library(ggplot2)
-library(writR)
+library(chartR)
 library(plotly)
 
 chart <- plotly::plot_ly(alpha = 0.6) %>%

@@ -1,7 +1,7 @@
 Package: chartR
 Title: Toolbox to draw diagrams and create graphs in documents
 Version: 2.00
-Date: 2020-12-06
+Date: 2020-12-07
 Authors@R: 
     person(given = "Nicolas",
            family = "Mangin",

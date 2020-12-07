@@ -51,7 +51,7 @@ plot_slopegraph <- function(df) {
   gg <- ggplot(df,aes(x=x,y=ypos)) +
     geom_line(aes(group=group),colour="grey80") +
     geom_point(colour="white",size=8) +
-    geom_text(aes(label=y), size=fontSize, family="American TypewritR") +
+    geom_text(aes(label=y), size=fontSize, family="American TypechartR") +
     scale_y_continuous(name="", breaks=yvals, labels=ylabs)
   return(gg)
 }    
@@ -74,7 +74,7 @@ chart <- plot_slopegraph(df) + labs(title="Estimates of % survival rates") +
   theme(axis.title=element_blank(),
         axis.ticks = element_blank(),
         plot.title = element_text(hjust=0.5,
-                                  family = "American TypewritR",
+                                  family = "American TypechartR",
                                   face="bold"),
-        axis.text = element_text(family = "American TypewritR",
+        axis.text = element_text(family = "American TypechartR",
                                  face="bold"))

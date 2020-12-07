@@ -12,4 +12,4 @@ chart <- ggplot(GNI2014, aes(area = population, fill = continent, label = countr
   geom_treemap_subgroup_text(place = 'centre', grow = F, alpha = .25, colour =
                                'white', fontface = 'italic', min.size = 0) +
   geom_treemap_text(colour = 'black', place = 'topleft', reflow = T) +
-  writR::graph_theme(legend.position = 'none')
+  chartR::graph_theme(legend.position = 'none')

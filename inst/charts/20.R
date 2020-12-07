@@ -20,4 +20,4 @@ chart <- tibble::tibble(
   geom_smooth(aes(x = value, y = lower_bound), lty = 1, color = 'black', lwd = 0.5, method = 'loess') +
   geom_smooth(aes(x = value, y = upper_bound), lty = 1, color = 'black', lwd = 0.5, method = 'loess') +
   geom_hline(yintercept = 0, lty = 2) +
-  writR::graph_theme()
+  chartR::graph_theme()

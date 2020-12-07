@@ -1,7 +1,7 @@
 library(tibble)
 library(dplyr)
 library(ggplot2)
-library(writR)
+library(chartR)
 
 chart <- dplyr::bind_rows(list(
   data.frame( x=rnorm(500, 10, 1.9), y=rnorm(500, 10, 1.2) ),

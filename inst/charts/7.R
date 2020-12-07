@@ -1,7 +1,7 @@
 library(tibble)
 library(dplyr)
 library(ggplot2)
-library(writR)
+library(chartR)
 
 chart <- dplyr::bind_rows(
   dplyr::bind_rows(list(
@@ -17,4 +17,4 @@ chart <- dplyr::bind_rows(
   )) +
   ggplot2::geom_violin(alpha = 0.2) +
   ggplot2::scale_fill_manual(values = c("blue","green","red")) +
-  writR::graph_theme()
+  chartR::graph_theme()
