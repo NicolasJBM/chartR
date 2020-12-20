@@ -3,7 +3,6 @@
 #' @seealso draw_nomnet
 #' @import miniUI
 #' @import shiny
-#' @import shinythemes
 #' @importFrom dplyr filter
 #' @importFrom dplyr mutate
 #' @importFrom dplyr %>%
@@ -20,7 +19,7 @@
 
 create_nomnet <- function() {
   ui <- miniPage(
-    theme = shinytheme("spacelab"),
+    theme = paste0(find.package("bibliogR"),"css/boostrap.css"),
     
     gadgetTitleBar("Create a nomological network"),
     miniTabstripPanel(
@@ -63,10 +62,10 @@ create_nomnet <- function() {
     tables <- reactiveValues()
     nodes <- reactive({
       tibble::tibble(
-        label = c("A", "B", "C"),
-        shape = factor(c("ellipse", "ellipse", "ellipse"), levels = c("ellipse","rectangle")),
-        x = c(0, 4, 2),
-        y = c(0, 0, 2),
+        label = c("Ground", "Qualifier", "Claim", "Warrant", "Backing", "Rebuttal"),
+        shape = factor(c("rectangle", "rectangle", "rectangle", "rectangle", "rectangle", "rectangle"), levels = c("ellipse","rectangle")),
+        x = c(0, 2, 4, 1, 1, 4),
+        y = c(0, 0, 0, 2, 4, 2),
         width = 2,
         height = 0.75,
         penwidth = 1,
@@ -74,7 +73,7 @@ create_nomnet <- function() {
         fillcolor = as.character("white"),
         fontsize = 14,
         fontcolor = as.character("black"),
-        include = c(TRUE, TRUE, TRUE)
+        include = c(TRUE, TRUE, TRUE, TRUE, TRUE, TRUE)
       )
     })
     observe({
@@ -84,16 +83,16 @@ create_nomnet <- function() {
     
     relations <- reactive({
       tibble::tibble(
-        relation = "A2B",
-        source = factor("A", levels = unique(nodes()$label)),
-        target = factor("B", levels = unique(nodes()$label)),
-        style = factor("solid", levels = c("solid","dashed")),
+        relation = c("ground2qualifier","qualifier2claim","backing2warrant","rebuttal2claim"),
+        source = factor(c("Ground","Qualifier","Backing","Rebuttal"), levels = unique(nodes()$label)),
+        target = factor(c("Qualifier","Claim","Warrant","Claim"), levels = unique(nodes()$label)),
+        style = factor(c("solid","solid","solid","solid"), levels = c("solid","dashed")),
         color = as.character("black"),
         fontcolor = as.character("black"),
         fontsize = 10,
         penwidth = 1,
-        arrowhead = factor("normal", levels = c("normal","none")),
-        label = as.character("+/-"),
+        arrowhead = factor(c("normal","normal","normal","normal"), levels = c("normal","none")),
+        label = as.character(c("observe","conclude","justify","challenge")),
         include = c(TRUE)
       )
     })
@@ -104,15 +103,15 @@ create_nomnet <- function() {
     
     moderations <- reactive({
       tibble::tibble(
-        source = factor("C", levels = unique(nodes()$label)),
-        target = factor("A2B", levels = unique(relations()$relation)),
+        source = factor("Warrant", levels = unique(nodes()$label)),
+        target = factor("ground2qualifier", levels = unique(relations()$relation)),
         style = factor("solid", levels = c("solid","dashed")),
         color = as.character("black"),
         fontcolor = as.character("black"),
         fontsize = 10,
         penwidth = 1,
         arrowhead = factor("normal", levels = c("normal","none")),
-        label = as.character("+/-"),
+        label = as.character("qualify"),
         include = c(TRUE)
       )
     })
