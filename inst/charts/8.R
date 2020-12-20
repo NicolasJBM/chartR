@@ -4,19 +4,39 @@ library(ggplot2)
 library(plotly)
 
 chart <- plotly::plot_ly(
-  type = 'parcoords', line = list(color = 'blue'),
-  dimensions = list(
-   list(range = c(1,5),
-        constraintrange = c(1,2),
-        label = 'A', values = c(1,4,4.5)),
-   list(range = c(1,5),
-        tickvals = c(1.5,3,4.5),
-        label = 'B', values = c(3,1.5,3)),
-   list(range = c(1,5),
-        tickvals = c(1,2,4,5),
-        label = 'C', values = c(2,4,4.5),
-        ticktext = c('text 1', 'text 2', 'text 3', 'text 4')),
-   list(range = c(1,5),
-        label = 'D', values = c(4,2,4))
+  type = "sankey",
+  domain = list(
+    x =  c(0,1),
+    y =  c(0,1)
+  ),
+  orientation = "h",
+  valueformat = ".0f",
+  valuesuffix = "euros",
+  node = list(
+    label = c("First","Second","Third","Fourth","Fifth","Sixth"),
+    color =  c("red", "blue", "green", "purple", "yellow", "orange"),
+    pad = 15,
+    thickness = 15,
+    line = list(
+      color = "grey",
+      width = 2
+    )
+  ),
+  link = list(
+    source = c(0,1,0,2,3,3),
+    target = c(2,3,3,4,4,5),
+    value =  c(8,4,2,8,4,2),
+    label =  c("A","B","C","D","E","F")
   )
-)
+) %>% 
+  plotly::layout(
+    title = "Sankey Diagram",
+    font = list(
+      size = 10,
+      color = 'white'
+    ),
+    xaxis = list(showgrid = F, zeroline = F, showticklabels = F),
+    yaxis = list(showgrid = F, zeroline = F, showticklabels = F),
+    plot_bgcolor = 'black',
+    paper_bgcolor = 'black'
+  )

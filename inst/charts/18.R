@@ -1,10 +1,19 @@
+library(wordcloud)
+library(tm)
 
-library(ggplot2)
-library(ggmosaic)
+data("SOTU")
+corp <- SOTU
+corp <- tm_map(corp, removePunctuation)
+corp <- tm_map(corp, content_transformer(tolower))
+corp <- tm_map(corp, removeNumbers)
+corp <- tm_map(corp, function(x)removeWords(x,stopwords()))
+term.matrix <- TermDocumentMatrix(corp)
+term.matrix <- as.matrix(term.matrix)
+colnames(term.matrix) <- c("SOTU 2010","SOTU 2011")
 
-chart <- ggplot(data = fly) +
-  geom_mosaic(aes(x = product(FlightFreq, Region), fill=FlightFreq), na.rm=TRUE, offset = 0.02) +
-  labs(x='Region', y=' ') +
-  coord_flip() +
-  chartR::graph_theme(legend.position = 'none') +
-  theme(axis.text.x = element_text(angle = 60))
+comparison.cloud(
+  term.matrix,max.words=40,random.order=FALSE,
+  title.colors=c("red","blue"),title.bg.colors=c("grey40","grey70")
+)
+
+chart <- recordPlot()

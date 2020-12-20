@@ -1,19 +1,16 @@
-library(wordcloud)
-library(tm)
+library(dplyr)
+library(maps)
+library(ggplot2)
+library(treemap)
 
-data("SOTU")
-corp <- SOTU
-corp <- tm_map(corp, removePunctuation)
-corp <- tm_map(corp, content_transformer(tolower))
-corp <- tm_map(corp, removeNumbers)
-corp <- tm_map(corp, function(x)removeWords(x,stopwords()))
-term.matrix <- TermDocumentMatrix(corp)
-term.matrix <- as.matrix(term.matrix)
-colnames(term.matrix) <- c("SOTU 2010","SOTU 2011")
+data("GNI2014")
 
-comparison.cloud(
-  term.matrix,max.words=40,random.order=FALSE,
-  title.colors=c("red","blue"),title.bg.colors=c("grey40","grey70")
-)
+basemap = map_data("world") %>%
+  mutate(iso3 = countrycode::countrycode(region, origin = "country.name", destination = "iso3c", warn = FALSE)) %>%
+  left_join(GNI2014, by = "iso3") %>%
+  mutate(population = log(population))
 
-chart <- recordPlot()
+chart <- ggplot(basemap, aes(long, lat, group=group, fill=population)) + 
+  geom_polygon(show.legend = F) +
+  scale_fill_viridis_c(option = "magma") +
+  ggthemes::theme_map()

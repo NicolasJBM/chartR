@@ -4,48 +4,32 @@ idchart,information,object,type,format,render,use
 3,distributions,density_plot,static,any,plot,Distribution of observations for several variables
 4,distributions,histogram,static,any,plot,Distribution of observations for several variables
 5,distributions,histogram,interactive,html,plotly,Distribution of observations for several variables
-6,distributions,ternary_plot,static,any,plot,Distribution of observations along three combined dimensions
-7,distributions,violin_plot,static,any,plot,Distribution of observations for several variables
-8,descriptions,parralel_coord_plot,interactive,html,plotly,Profiles as lines across several parallel dimensions
-9,relations,sankey_diagram,interactive,html,plotly,Resource flows across nodes or periods
-10,compositions,collapsible_trees,interactive,html,collapsibleTree,Breakdown of hierarchical structures
-11,descriptions,radar_chart,static,any,plot,Profiles as lines across several concentric dimensions
-12,descriptions,radial_barplot,static,any,plot,Profiles as bars across several concentric dimensions
-13,compositions,sunburst,interactive,html,plotly,Breakdown and relative proportions of hierarchical structures
-14,distributions,ridgeline,static,any,plot,Distribution of observations for several variables
-15,proportions,gauge,static,any,plot,Performance on one dimension
-16,variations,waterfall_chart,static,any,plot,Changes between two references
-17,distributions,population_pyramid,static,any,plot,Differences between two populations
-18,associations,mosaic_plot,static,any,plot,Cross two categorical variables
-19,associations,caterpillar_plot,static,any,plot,Estimates and confidence intervals for several predictors
-20,associations,marginal_effect,static,any,plot,Estimates and their confidence intervals for continuous variables
-21,relations,chord_diagram,static,any,plot,Directional flows between categories
-22,evolutions,time_series,static,any,plot,Evolution of some variables over time
-23,proportions,comparison_wordcloud,static,any,plot,Word frequencies across documents
-24,associations,heatmap_cluster,static,any,plot,Clustering of observations based on their characteristics
-25,compositions,circular_packing,static,any,plot,Breakdown and relative proportions of hierarchical structures
-26,compositions,venn_diagram,static,any,plot,Intersections between sets
-27,compositions,tree_map,static,any,plot,Breakdown and relative proportions of hierarchical structures
-28,proportions,bar_plot,static,any,plot,Comparison of various caterories on one dimension
-29,locations,connections_map,static,any,plot,Connections between locations on maps
-30,locations,choropleth,static,any,plot,Color areas based on the values of a specified variable
-31,locations,bubble_map,static,any,plot,Place on a map bubbles the size of which is proportional to a variable
-32,locations,cartogram,static,any,plot,Distort country sizes to match the magnitude of a variable
-33,associations,scatter_plot,static,any,plot,Association between several variables
-34,associations,contour_plot,static,any,plot,Levels for various coordinates
-35,associations,surface_plot,interactive,html,plotly,Levels for various coordinates
-36,relations,network,static,any,plot,Relationships between persons
-37,relations,dynamic_network,dynamic,html,ndtv,Evolution of relationships between persons
-38,relations,sankey_diagram,static,any,plot,Resource flows across nodes or periods
-39,associations,scatter_plot,interactive,html,plotly,Association between several variables
-40,evolutions,time_series,dynamic,,,
-41,evolutions,timeline,dynamic,,,
-42,evolutions,candle_stick_chart,static,,,
-43,variations,dumbbell_plot,static,,,
-44,evolutions,animation,dynamic,html,plotly,Animate any plot made with ggplot
-45,associations,calendar_heatmap,static,any,plot,Activity over the year and across years
-46,evolutions,slope_chart,static,any,plot,Changes over time for several categories
-47,relations,hierarchical_edge_bundling,static,any,plot,Non-directional flows between categories
-48,associations,contour_plot,interactive,html,plotly,Levels for various coordinates
-49,associations,surface_plot,dynamic,html,rgl,Levels for various coordinates
-50,associations,sentence_links,static,any,plot,Links between words of a sentence
+6,distributions,violin_plot,static,any,plot,Distribution of observations for several variables
+7,descriptions,parralel_coord_plot,interactive,html,plotly,Profiles as lines across several parallel dimensions
+8,relations,sankey_diagram,interactive,html,plotly,Resource flows across nodes or periods
+9,compositions,collapsible_trees,interactive,html,collapsibleTree,Breakdown of hierarchical structures
+10,compositions,sunburst,interactive,html,plotly,Breakdown and relative proportions of hierarchical structures
+11,distributions,ridgeline,static,any,plot,Distribution of observations for several variables
+12,variations,waterfall_chart,static,any,plot,Changes between two references
+13,distributions,population_pyramid,static,any,plot,Differences between two populations
+14,associations,mosaic_plot,static,any,plot,Cross two categorical variables
+15,associations,caterpillar_plot,static,any,plot,Estimates and confidence intervals for several predictors
+16,associations,marginal_effect,static,any,plot,Estimates and their confidence intervals for continuous variables
+17,relations,chord_diagram,static,any,plot,Directional flows between categories
+18,proportions,comparison_wordcloud,static,any,plot,Word frequencies across documents
+19,associations,heatmap_cluster,static,any,plot,Clustering of observations based on their characteristics
+20,compositions,venn_diagram,static,any,plot,Intersections between sets
+21,compositions,tree_map,static,any,plot,Breakdown and relative proportions of hierarchical structures
+22,locations,connections_map,static,any,plot,Connections between locations on maps
+23,locations,choropleth,static,any,plot,Color areas based on the values of a specified variable
+24,locations,bubble_map,static,any,plot,Place on a map bubbles the size of which is proportional to a variable
+25,associations,scatter_plot,static,any,plot,Association between several variables
+,,,,,,
+,,,,,,
+,,,,,,
+,,,,,,
+,,,,,,
+,,,,,,
+,,,,,,
+,,,,,,
+,,,,,,

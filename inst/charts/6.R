@@ -1,20 +1,20 @@
-library(dplyr)
 library(tibble)
+library(dplyr)
 library(ggplot2)
-library(ggtern)
+library(chartR)
 
-chart <- tibble::tibble(
-  x = runif(10),
-  y = runif(10),
-  z = runif(10)
+chart <- dplyr::bind_rows(
+  dplyr::bind_rows(list(
+    tibble::tibble( color = "blue", price=rnorm(500, 10, 1.9) ),
+    tibble::tibble( color = "green", price=rnorm(500, 14.5, 1.9) ),
+    tibble::tibble( color = "red", price=rnorm(500, 9.5, 1.9) )
+  )) 
 ) %>%
-  ggtern::ggtern(aes(x=x, y=y, z=z)) + 
-  ggtern::stat_density_tern(aes(fill=..level.., alpha=..level..), geom='polygon') +
-  ggplot2::scale_fill_gradient2(high = 'blue') +  
-  ggplot2::geom_point() +
-  ggtern::theme_showarrows() +
-  ggplot2::ggtitle('My Favorite Color') +
-  ggplot2::xlab('Red') + 
-  ggplot2::ylab('Yellow') +
-  ggtern::zlab('Blue') +
-  ggplot2::guides(color = 'none', fill = 'none', alpha = 'none')
+  ggplot2::ggplot(ggplot2::aes(
+    x = color,
+    y = price,
+    fill = color
+  )) +
+  ggplot2::geom_violin(alpha = 0.2) +
+  ggplot2::scale_fill_manual(values = c("blue","green","red")) +
+  chartR::graph_theme()

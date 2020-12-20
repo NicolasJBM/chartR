@@ -1,18 +1,19 @@
-library(ggraph)
-library(igraph)
-library(tidyverse)
-library(viridis)
+library(ggplot2)
+library(ggalt)
+library(ggforce)
 
-edges = flare$edges %>% filter(to %in% from) %>% droplevels()
-vertices = flare$vertices %>% filter(name %in% c(edges$from, edges$to)) %>% droplevels()
-vertices$size=runif(nrow(vertices))
-
-mygraph <- graph_from_data_frame( edges, vertices=vertices )
-
-chart <- ggraph(mygraph, layout = 'circlepack', weight="size") + 
-  geom_node_circle(aes(fill = depth)) +
-  geom_node_label(aes(label=shortName, filter=leaf, size=size)) +
-  scale_label_size(range = c(0.1,0.5)) +
-  theme_void() + 
-  theme(legend.position="FALSE") +
-  scale_fill_viridis()
+chart <- ggplot(data = iris,
+       aes(x = Sepal.Length, y = Sepal.Width, col=Species, shape=Species, group = Species)) + 
+  geom_encircle(data = dplyr::filter(iris, Species == "setosa"),
+                colour="red", spread=0.02, fill = "red", alpha = 0.1) +
+  geom_encircle(data = dplyr::filter(iris, Species == "versicolor"),
+                colour="green", spread=0.02, fill = "green", alpha = 0.1) +
+  geom_encircle(data = dplyr::filter(iris, Species == "virginica"),
+                colour="blue", spread=0.05, fill = "blue", alpha = 0.1) +
+  geom_smooth(method = "lm", se = FALSE) +
+  geom_mark_hull(aes(filter = Species == "versicolor", label = Species)) +
+  geom_point() +
+  labs(title="Iris Clustering", 
+       subtitle="Illustration of a scatterplot",
+       caption="Source: Iris") +
+  chartR::graph_theme()

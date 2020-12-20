@@ -2,7 +2,6 @@
 #' @return A citation.
 #' @import miniUI
 #' @import shiny
-#' @import shinythemes
 #' @importFrom dplyr filter
 #' @importFrom dplyr %>%
 #' @importFrom stats na.omit
@@ -18,7 +17,7 @@
 
 add_chart <- function() {
   ui <- miniPage(
-    theme = shinytheme("spacelab"),
+    theme = paste0(find.package("bibliogR"),"css/boostrap.css"),
 
     gadgetTitleBar("Insert chart"),
     miniTabstripPanel(
