@@ -22,6 +22,8 @@ Imports:
   miniUI,
   shiny,
   dplyr,
+  purrr,
+  stringr,
   stats,
   plotly,
   collapsibleTree,

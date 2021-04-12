@@ -14,6 +14,7 @@
 #' @importFrom DiagrammeR grVizOutput
 #' @importFrom DiagrammeR renderGrViz
 #' @importFrom DiagrammeR render_graph
+#' @importFrom rstudioapi insertText
 #' @export
 
 
@@ -55,7 +56,6 @@ create_nomnet <- function() {
     
     # Bind variables
     target <- NULL
-    
     
     # Initialize tables
     
@@ -244,13 +244,26 @@ create_nomnet <- function() {
     
     observeEvent(input$done, {
       
-      base_chart <- list(
-        nodes = na.omit(tables$nodes),
-        relations = na.omit(tables$relations),
-        moderations = na.omit(tables$moderations)
-      )
+      nodes <- tables$nodes %>%
+        na.omit() %>%
+        dplyr::mutate_if(is.factor, as.character)
       
-      stopApp(base_chart)
+      relations <- tables$relations %>%
+        na.omit() %>%
+        dplyr::mutate_if(is.factor, as.character)
+      
+      moderations <- tables$moderations %>%
+        na.omit() %>%
+        dplyr::mutate_if(is.factor, as.character)
+      
+      c(
+        write_table_code(nodes, "nodes"),
+        write_table_code(relations, "relations"),
+        write_table_code(moderations, "moderations")
+      ) %>%
+        rstudioapi::insertText()
+      
+      stopApp()
     })
     
   }

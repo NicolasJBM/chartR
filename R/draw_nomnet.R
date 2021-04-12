@@ -3,54 +3,6 @@
 #' @param relations   Tibble. Edges with their properties.
 #' @param moderations Tibble. Moderations with their properties.
 #' @return A DiagrammeR object ready for rendering.
-#' @examples
-#' library(dplyr)
-#' library(tibble)
-#'
-#' nodes <- tibble(
-#'   label = c("CTRL", "JUST", "OCB"),
-#'   shape = c("ellipse", "ellipse", "ellipse"),
-#'   x = c(0, 4, 2),
-#'   y = c(0, 0, 2),
-#'   width = 2,
-#'   height = 0.75,
-#'   penwidth = 1,
-#'   color = "black",
-#'   fillcolor = "white",
-#'   fontsize = 14,
-#'   fontcolor = "black",
-#'   include = c(TRUE, TRUE, TRUE)
-#' )
-#'
-#' relations <- tibble(
-#'   relation = "CTRL_to_JUST",
-#'   source = "CTRL",
-#'   target = "JUST",
-#'   style = "solid",
-#'   color = "black",
-#'   fontcolor = "black",
-#'   fontsize = 10,
-#'   penwidth = 1,
-#'   arrowhead = "normal",
-#'   label = "+",
-#'   include = c(TRUE)
-#' )
-#'
-#' moderations <- tibble(
-#'   source = "OCB",
-#'   target = "CTRL_to_JUST",
-#'   style = "solid",
-#'   color = "black",
-#'   fontcolor = "black",
-#'   fontsize = 10,
-#'   penwidth = 1,
-#'   arrowhead = "normal",
-#'   label = "-",
-#'   include = c(TRUE)
-#' )
-#'
-#' draw_nomnet(nodes, relations, moderations) %>%
-#'   DiagrammeR::render_graph(width = "100%")
 #' @importFrom dplyr filter
 #' @importFrom dplyr left_join
 #' @importFrom dplyr select
@@ -86,7 +38,7 @@ draw_nomnet <- function(nodes, relations, moderations) {
   nodes <- nodes %>%
     dplyr::mutate_if(is.factor, as.character) %>%
     dplyr::filter(include == TRUE) %>%
-    tibble::rowid_to_column(var = "node_id")
+    tibble::rowid_to_column("node_id")
 
   
   if (nrow(relations) > 0) {

@@ -1,0 +1,4 @@
+Name: Nomological net
+Description: Create a nomological network
+Binding: create_nomnet
+Interactive: true
