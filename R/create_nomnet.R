@@ -18,7 +18,7 @@
 #' @export
 
 
-create_nomnet <- function() {
+create_nomnet <- function(nodes_in = NA, relations_in = NA, moderations_in = NA) {
   ui <- miniPage(
     theme = paste0(find.package("bibliogR"),"css/boostrap.css"),
     
@@ -61,20 +61,22 @@ create_nomnet <- function() {
     
     tables <- reactiveValues()
     nodes <- reactive({
-      tibble::tibble(
-        label = c("Ground", "Qualifier", "Claim", "Warrant", "Backing", "Rebuttal"),
-        shape = factor(c("rectangle", "rectangle", "rectangle", "rectangle", "rectangle", "rectangle"), levels = c("ellipse","rectangle")),
-        x = c(0, 2, 4, 1, 1, 4),
-        y = c(0, 0, 0, 1, 2, 1),
-        width = 1,
-        height = 0.5,
-        penwidth = 1,
-        color = as.character("black"),
-        fillcolor = as.character("white"),
-        fontsize = 14,
-        fontcolor = as.character("black"),
-        include = c(TRUE, TRUE, TRUE, TRUE, TRUE, TRUE)
-      )
+      if (suppressWarnings(is.na(nodes_in))){
+        tibble::tibble(
+          label = c("Ground", "Qualifier", "Claim", "Warrant", "Backing", "Rebuttal"),
+          shape = factor(c("rectangle", "rectangle", "rectangle", "rectangle", "rectangle", "rectangle"), levels = c("ellipse","rectangle")),
+          x = c(0, 2, 4, 1, 1, 4),
+          y = c(0, 0, 0, 1, 2, 1),
+          width = 1,
+          height = 0.5,
+          penwidth = 1,
+          color = as.character("black"),
+          fillcolor = as.character("white"),
+          fontsize = 14,
+          fontcolor = as.character("black"),
+          include = c(TRUE, TRUE, TRUE, TRUE, TRUE, TRUE)
+        )
+      } else nodes_in
     })
     observe({
       tables$nodes <- nodes()
@@ -82,19 +84,21 @@ create_nomnet <- function() {
     
     
     relations <- reactive({
-      tibble::tibble(
-        relation = c("ground2qualifier","qualifier2claim","backing2warrant","rebuttal2claim"),
-        source = factor(c("Ground","Qualifier","Backing","Rebuttal"), levels = unique(nodes()$label)),
-        target = factor(c("Qualifier","Claim","Warrant","Claim"), levels = unique(nodes()$label)),
-        style = factor(c("solid","solid","solid","solid"), levels = c("solid","dashed")),
-        color = as.character("black"),
-        fontcolor = as.character("black"),
-        fontsize = 10,
-        penwidth = 1,
-        arrowhead = factor(c("normal","normal","normal","normal"), levels = c("normal","none")),
-        label = as.character(c("observe","conclude","justify","challenge")),
-        include = c(TRUE)
-      )
+      if (suppressWarnings(is.na(relations_in))){
+        tibble::tibble(
+          relation = c("ground2qualifier","qualifier2claim","backing2warrant","rebuttal2claim"),
+          source = factor(c("Ground","Qualifier","Backing","Rebuttal"), levels = unique(nodes()$label)),
+          target = factor(c("Qualifier","Claim","Warrant","Claim"), levels = unique(nodes()$label)),
+          style = factor(c("solid","solid","solid","solid"), levels = c("solid","dashed")),
+          color = as.character("black"),
+          fontcolor = as.character("black"),
+          fontsize = 10,
+          penwidth = 1,
+          arrowhead = factor(c("normal","normal","normal","normal"), levels = c("normal","none")),
+          label = as.character(c("observe","conclude","justify","challenge")),
+          include = c(TRUE)
+        )
+      } else relations_in
     })
     observe({
       tables$relations <- relations()
@@ -102,18 +106,20 @@ create_nomnet <- function() {
     
     
     moderations <- reactive({
-      tibble::tibble(
-        source = factor("Warrant", levels = unique(nodes()$label)),
-        target = factor("ground2qualifier", levels = unique(relations()$relation)),
-        style = factor("solid", levels = c("solid","dashed")),
-        color = as.character("black"),
-        fontcolor = as.character("black"),
-        fontsize = 10,
-        penwidth = 1,
-        arrowhead = factor("normal", levels = c("normal","none")),
-        label = as.character("qualify"),
-        include = c(TRUE)
-      )
+      if (suppressWarnings(is.na(moderations_in))){
+        tibble::tibble(
+          source = factor("Warrant", levels = unique(nodes()$label)),
+          target = factor("ground2qualifier", levels = unique(relations()$relation)),
+          style = factor("solid", levels = c("solid","dashed")),
+          color = as.character("black"),
+          fontcolor = as.character("black"),
+          fontsize = 10,
+          penwidth = 1,
+          arrowhead = factor("normal", levels = c("normal","none")),
+          label = as.character("qualify"),
+          include = c(TRUE)
+        ) 
+      } else moderations_in
     })
     observe({
       tables$moderations <- moderations()
