@@ -1,6 +1,9 @@
 #' Gadget to interactively create a DiagrammeR object.
 #' @return Tables for nodes, relations and moderations serving as input for draw_nomnet.
 #' @seealso draw_nomnet
+#' @param nodes_in Dataframe or tibble. Node description.
+#' @param relations_in Dataframe or tibble. Relations description.
+#' @param moderations_in Dataframe or tibble. Moderations description.
 #' @import miniUI
 #' @import shiny
 #' @importFrom dplyr filter

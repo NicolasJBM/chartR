@@ -4,7 +4,14 @@
 \alias{create_nomnet}
 \title{Gadget to interactively create a DiagrammeR object.}
 \usage{
-create_nomnet()
+create_nomnet(nodes_in = NA, relations_in = NA, moderations_in = NA)
+}
+\arguments{
+\item{nodes_in}{Dataframe or tibble. Node description.}
+
+\item{relations_in}{Dataframe or tibble. Relations description.}
+
+\item{moderations_in}{Dataframe or tibble. Moderations description.}
 }
 \value{
 Tables for nodes, relations and moderations serving as input for draw_nomnet.
