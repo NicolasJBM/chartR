@@ -32,7 +32,7 @@ write_table_code <- function(table, name){
 
 
 prepare_lines <- function(column, table) {
-  if (nrow(table) > 1){
+  if (suppressWarnings(nrow(table) > 1)){
     paste0("  ",column, " = c(",paste(prepchr(table[,column]), collapse = ','), "),")
   } else {
     paste0("  ",column, " = ",prepchr(table[1,column]), ",")
