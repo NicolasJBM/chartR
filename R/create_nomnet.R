@@ -64,7 +64,7 @@ create_nomnet <- function(nodes_in = NA, relations_in = NA, moderations_in = NA)
     
     tables <- reactiveValues()
     nodes <- reactive({
-      if (suppressWarnings(is.na(nodes_in))){
+      if (is.na(nodes_in)[1]){
         tibble::tibble(
           label = c("Ground", "Qualifier", "Claim", "Warrant", "Backing", "Rebuttal"),
           shape = factor(c("rectangle", "rectangle", "rectangle", "rectangle", "rectangle", "rectangle"), levels = c("ellipse","rectangle")),
@@ -87,7 +87,7 @@ create_nomnet <- function(nodes_in = NA, relations_in = NA, moderations_in = NA)
     
     
     relations <- reactive({
-      if (suppressWarnings(is.na(relations_in))){
+      if (is.na(relations_in)[1]){
         tibble::tibble(
           relation = c("ground2qualifier","qualifier2claim","backing2warrant","rebuttal2claim"),
           source = factor(c("Ground","Qualifier","Backing","Rebuttal"), levels = unique(nodes()$label)),
@@ -109,7 +109,7 @@ create_nomnet <- function(nodes_in = NA, relations_in = NA, moderations_in = NA)
     
     
     moderations <- reactive({
-      if (suppressWarnings(is.na(moderations_in))){
+      if (is.na(moderations_in)[1]){
         tibble::tibble(
           source = factor("Warrant", levels = unique(nodes()$label)),
           target = factor("ground2qualifier", levels = unique(relations()$relation)),
