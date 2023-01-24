@@ -22,7 +22,7 @@ update_diagram <- function(nodes, relations, moderations){
     dplyr::mutate(
       shape = base::factor(
         shape,
-        levels = c("ellipse","rectangle")
+        levels = c("ellipse","rectangle","diamond","egg","plaintext","triangle")
       ),
       include = base::as.logical(include)
     )
@@ -39,7 +39,7 @@ update_diagram <- function(nodes, relations, moderations){
         levels = base::unique(nodes$label)
       ),
       style = base::factor(style, levels = c("solid","dashed")),
-      arrowhead = base::factor(arrowhead, levels = c("normal","none")),
+      arrowhead = base::factor(arrowhead, levels = c("none","normal","diamond","dot","inv","vee","tee","box","crow","curve")),
       include = base::as.logical(include)
     )
   
@@ -54,7 +54,7 @@ update_diagram <- function(nodes, relations, moderations){
         levels = unique(relations$relation)
       ),
       style = base::factor(style, levels = c("solid","dashed")),
-      arrowhead = base::factor(arrowhead, levels = c("normal","none")),
+      arrowhead = base::factor(arrowhead, levels = c("none","normal","diamond","dot","inv","vee","tee","box","crow","curve")),
       include = base::as.logical(include)
     )
   

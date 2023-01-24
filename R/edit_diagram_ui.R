@@ -23,8 +23,8 @@ edit_diagram_ui <- function(id){
       shiny::column(
         6,
         shiny::actionButton(
-          ns("applychanges"), "Apply changes", icon = shiny::icon("rotate"),
-          style = "background-color:#000066;color:#FFF;width:100%;
+          ns("applychanges"), "Refresh", icon = shiny::icon("rotate"),
+          style = "background-color:#006699;color:#FFF;width:100%;
           margin-top:10px;margin-bottom:25px;"
         ),
         shinydashboardPlus::box(

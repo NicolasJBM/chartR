@@ -12,7 +12,7 @@ initialize_diagram <- function(){
     label = base::as.character(c("cause", "consequence", "moderator")),
     shape = base::factor(
       c("rectangle", "rectangle", "rectangle"),
-      levels = c("ellipse","rectangle")
+      levels = c("ellipse","rectangle","diamond","egg","plaintext","triangle")
     ),
     x = c(0, 4, 2),
     y = c(0, 0, 1),
@@ -41,7 +41,7 @@ initialize_diagram <- function(){
     fontcolor = base::as.character("black"),
     fontsize = 10,
     penwidth = 1,
-    arrowhead = base::factor("normal", levels = c("normal","none")),
+    arrowhead = base::factor("normal", levels = c("none","normal","diamond","dot","inv","vee","tee","box","crow","curve")),
     label = base::as.character("increases"),
     include = base::as.logical(TRUE)
   )
@@ -60,7 +60,7 @@ initialize_diagram <- function(){
     fontcolor = base::as.character("black"),
     fontsize = 10,
     penwidth = 1,
-    arrowhead = base::factor("normal", levels = c("normal","none")),
+    arrowhead = base::factor("normal", levels = c("none","normal","diamond","dot","inv","vee","tee","box","crow","curve")),
     label = base::as.character("accentuates"),
     include = base::as.logical(TRUE)
   )
