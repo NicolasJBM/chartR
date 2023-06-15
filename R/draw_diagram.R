@@ -108,22 +108,24 @@ draw_diagram <- function(nodes, relations, moderations) {
     for (i in 1:nrow(relations)) {
       graph <- DiagrammeR::add_node(
         graph,
-        label = "",
+        label = relations$by[[i]],
         node_aes = DiagrammeR::node_aes(
           x = relations$by_x[[i]],
           y = relations$by_y[[i]],
           width = 0,
           height = 0,
           penwidth = 0,
-          color = "grey50",
-          fillcolor = "grey50"
+          color = "#00000000",
+          fillcolor = "#00000000",
+          fontsize = 0,
+          fontcolor = "#00000000"
         )
       )
     }
   }
 
   # Add the relationships:
-
+  
   if (nrow(relations) > 0){
     for (i in 1:nrow(relations)) {
       graph <- DiagrammeR::add_edge(
@@ -136,7 +138,8 @@ draw_diagram <- function(nodes, relations, moderations) {
           fontcolor = relations$fontcolor[[i]],
           fontsize = relations$fontsize[[i]],
           penwidth = relations$penwidth[[i]],
-          arrowtail = "none",
+          dir = "both",
+          arrowtail = relations$arrowtail[[i]],
           arrowhead = "none",
           label = relations$label[[i]]
         )
@@ -149,7 +152,8 @@ draw_diagram <- function(nodes, relations, moderations) {
           style = relations$style[[i]],
           color = relations$color[[i]],
           penwidth = relations$penwidth[[i]],
-          arrowtail = relations$arrowtail[[i]],
+          dir = "both",
+          arrowtail = "none",
           arrowhead = relations$arrowhead[[i]],
           label = ""
         )
@@ -171,6 +175,7 @@ draw_diagram <- function(nodes, relations, moderations) {
           fontcolor = moderations$fontcolor[[i]],
           fontsize = moderations$fontsize[[i]],
           penwidth = moderations$penwidth[[i]],
+          dir = "both",
           arrowtail = moderations$arrowtail[[i]],
           arrowhead = moderations$arrowhead[[i]],
           label = moderations$label[[i]]
