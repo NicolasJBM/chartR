@@ -136,6 +136,7 @@ draw_diagram <- function(nodes, relations, moderations) {
           fontcolor = relations$fontcolor[[i]],
           fontsize = relations$fontsize[[i]],
           penwidth = relations$penwidth[[i]],
+          arrowtail = "none",
           arrowhead = "none",
           label = relations$label[[i]]
         )
@@ -148,6 +149,7 @@ draw_diagram <- function(nodes, relations, moderations) {
           style = relations$style[[i]],
           color = relations$color[[i]],
           penwidth = relations$penwidth[[i]],
+          arrowtail = relations$arrowtail[[i]],
           arrowhead = relations$arrowhead[[i]],
           label = ""
         )
@@ -169,6 +171,7 @@ draw_diagram <- function(nodes, relations, moderations) {
           fontcolor = moderations$fontcolor[[i]],
           fontsize = moderations$fontsize[[i]],
           penwidth = moderations$penwidth[[i]],
+          arrowtail = moderations$arrowtail[[i]],
           arrowhead = moderations$arrowhead[[i]],
           label = moderations$label[[i]]
         )

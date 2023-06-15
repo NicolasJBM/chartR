@@ -41,6 +41,7 @@ initialize_diagram <- function(){
     fontcolor = base::as.character("black"),
     fontsize = 10,
     penwidth = 1,
+    arrowtail = base::factor("normal", levels = c("none","normal","diamond","dot","inv","vee","tee","box","crow","curve")),
     arrowhead = base::factor("normal", levels = c("none","normal","diamond","dot","inv","vee","tee","box","crow","curve")),
     label = base::as.character("increases"),
     include = base::as.logical(TRUE)
@@ -60,6 +61,7 @@ initialize_diagram <- function(){
     fontcolor = base::as.character("black"),
     fontsize = 10,
     penwidth = 1,
+    arrowtail = base::factor("normal", levels = c("none","normal","diamond","dot","inv","vee","tee","box","crow","curve")),
     arrowhead = base::factor("normal", levels = c("none","normal","diamond","dot","inv","vee","tee","box","crow","curve")),
     label = base::as.character("accentuates"),
     include = base::as.logical(TRUE)

@@ -11,6 +11,7 @@
 
 update_diagram <- function(nodes, relations, moderations){
   
+  arrowtail <- NULL
   arrowhead <- NULL
   shape <- NULL
   style <- NULL
@@ -39,6 +40,7 @@ update_diagram <- function(nodes, relations, moderations){
         levels = base::unique(nodes$label)
       ),
       style = base::factor(style, levels = c("solid","dashed")),
+      arrowtail = base::factor(arrowtail, levels = c("none","normal","diamond","dot","inv","vee","tee","box","crow","curve")),
       arrowhead = base::factor(arrowhead, levels = c("none","normal","diamond","dot","inv","vee","tee","box","crow","curve")),
       include = base::as.logical(include)
     )
@@ -54,6 +56,7 @@ update_diagram <- function(nodes, relations, moderations){
         levels = unique(relations$relation)
       ),
       style = base::factor(style, levels = c("solid","dashed")),
+      arrowtail = base::factor(arrowtail, levels = c("none","normal","diamond","dot","inv","vee","tee","box","crow","curve")),
       arrowhead = base::factor(arrowhead, levels = c("none","normal","diamond","dot","inv","vee","tee","box","crow","curve")),
       include = base::as.logical(include)
     )
