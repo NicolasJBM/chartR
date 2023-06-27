@@ -24,6 +24,9 @@ Imports:
     shiny,
     shinydashboardPlus,
     shinyAce,
+    shinyWidgets,
     ggplot2,
     ggrepel,
-    patchwork
+    patchwork,
+    ggcorrplot,
+    forcats
