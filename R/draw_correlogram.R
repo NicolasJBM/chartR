@@ -10,6 +10,7 @@
 
 draw_correlogram <- function(scores){
   scores <- dplyr::select_if(scores, base::is.numeric)
+  scores <- scores[,(base::apply(scores, 2, stats::sd) != 0)]
   corr <- base::round(stats::cor(scores, method = "kendall"), 2)
   p.mat <- ggcorrplot::cor_pmat(scores)
   ggcorrplot::ggcorrplot(
