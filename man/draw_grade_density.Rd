@@ -4,12 +4,22 @@
 \alias{draw_grade_density}
 \title{Grade density}
 \usage{
-draw_grade_density(grades, studentid)
+draw_grade_density(
+  grades,
+  studentid,
+  structure,
+  labels = base::list(x = "Grade", y = "Proportion", avg = "Mean", med = "Median", stu =
+    "You")
+)
 }
 \arguments{
 \item{grades}{Tibble. List of grades of all students. Three necessary variables: student, points, grade.}
 
 \item{studentid}{Character. ID of the student.}
+
+\item{structure}{Tibble. Variables: threshold, status, color, and comment. Comment is not necessary.}
+
+\item{labels}{List. Names for axes and legends (for translations purposes)}
 }
 \value{
 ggplot2 density graph.
