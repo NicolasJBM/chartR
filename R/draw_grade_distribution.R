@@ -19,8 +19,16 @@
 
 
 draw_grade_distribution <- function(student_grades, pass, increment){
+  
   grade <- NULL
   passing <- NULL
+  points <- NULL
+  
+  student_grades <- student_grades |>
+    dplyr::filter(points > 0) |>
+    tidyr::replace_na(base::list(grade = 0)) |>
+    stats::na.omit()
+  
   student_grades |>
     dplyr::mutate(passing = grade >= pass) |>
     ggplot2::ggplot(ggplot2::aes(x = grade, fill = passing)) +

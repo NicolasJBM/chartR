@@ -57,15 +57,15 @@ draw_grade_density <- function(
   col = stats::setNames(structure$color, base::levels(dens$status))
   
   ggplot2::ggplot(dens, ggplot2::aes(x, y, fill=status)) +
-    ggplot2::geom_area() +
-    ggplot2::geom_line(linewidth=1) +
+    ggplot2::geom_area(alpha = 0.5) +
+    ggplot2::geom_line(linewidth=1.5) +
     ggplot2::scale_fill_manual(labels=structure$status, values = col) +
-    ggplot2::geom_vline(xintercept = avg, color = "blue", size = 1.25, lty = 2) +
-    ggplot2::geom_vline(xintercept = med, color = "skyblue3", size = 1.25, lty = 2) +
-    ggplot2::geom_vline(xintercept = sg, color = "purple", size = 1.25) +
-    ggplot2::annotate("text", label = labels$med, x = maxx*0.9, y = maxy*0.95, color = "blue") +
-    ggplot2::annotate("text", label = labels$avg, x = maxx*0.9, y = maxy*0.90, color = "skyblue3") +
-    ggplot2::annotate("text", label = labels$stu, x = maxx*0.9, y = maxy*0.85, color = "purple") +
+    ggplot2::geom_vline(xintercept = avg, color = "blue", size = 1.5, lty = 2) +
+    ggplot2::geom_vline(xintercept = med, color = "skyblue3", size = 1.5, lty = 2) +
+    ggplot2::geom_vline(xintercept = sg, color = "purple", size = 1.5) +
+    ggplot2::annotate("text", label = labels$med, x = 1, y = maxy*0.95, color = "blue") +
+    ggplot2::annotate("text", label = labels$avg, x = 1, y = maxy*0.90, color = "skyblue3") +
+    ggplot2::annotate("text", label = labels$stu, x = 1, y = maxy*0.85, color = "purple") +
     ggplot2::scale_x_continuous(breaks = base::seq(0,maxx,1)) +
     ggplot2::xlab(labels$x) +
     ggplot2::ylab(labels$y) +

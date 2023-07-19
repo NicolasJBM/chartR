@@ -21,19 +21,19 @@
 
 draw_composition_scatterplot <- function(composition){
   
-  success <- NULL
   discrimination <- NULL
   points <- NULL
   guess <- NULL
   question <- NULL
+  difficulty <- NULL
   
   composition |>
-    ggplot2::ggplot(ggplot2::aes(x = success, y = discrimination, size = points, alpha = 1-guess, label = question)) +
+    ggplot2::ggplot(ggplot2::aes(x = difficulty, y = discrimination, size = points, alpha = 1-guess, label = question)) +
     ggrepel::geom_label_repel(nudge_y = 0.1) +
-    ggplot2::xlim(0,1) +
+    ggplot2::xlim(0,10) +
     ggplot2::ylim(base::min(composition$discrimination-0.1,0), base::max(composition$discrimination+0.1)) +
-    ggplot2::geom_vline(xintercept = 0.1, color = "red", lty = 2, size = 1.5) +
-    ggplot2::geom_vline(xintercept = 0.9, color = "red", lty = 2, size = 1.5) +
+    ggplot2::geom_vline(xintercept = 1, color = "red", lty = 2, size = 1.5) +
+    ggplot2::geom_vline(xintercept = 9, color = "red", lty = 2, size = 1.5) +
     ggplot2::geom_hline(yintercept = 1, color = "red", lty = 2, size = 1.5) +
     ggplot2::scale_size(range = c(3,5)) +
     ggplot2::scale_alpha(range = c(0.5,1)) +
