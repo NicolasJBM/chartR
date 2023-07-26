@@ -42,7 +42,7 @@ draw_composition_barchart <- function(composition, cat1, categorical_values1){
     ggplot2::xlab(cat1) +
     ggplot2::ylab(cat2) +
     ggplot2::coord_flip() +
-    ggplot2::theme_minimal()+
+    ggplot2::theme_minimal() +
     ggplot2::theme(
       axis.text = ggplot2::element_text(size = 14),
       legend.position = "none"

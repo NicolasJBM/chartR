@@ -50,7 +50,7 @@ draw_composition_heatmap <- function(composition, cat1, cat2, categorical_values
     ggplot2::xlab(cat1) +
     ggplot2::ylab(cat2) +
     ggplot2::coord_flip() +
-    ggplot2::theme_minimal()+
+    ggplot2::theme_minimal() +
     ggplot2::theme(
       legend.position = "none",
       axis.text = ggplot2::element_text(size = 14),
