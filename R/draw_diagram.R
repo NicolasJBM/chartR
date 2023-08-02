@@ -29,7 +29,8 @@ draw_diagram <- function(nodes, relations, moderations) {
   node_id <- NULL
   relation <- NULL
   relation_id <- NULL
-  target <- NULL
+  origin <- NULL
+  destination <- NULL
   to_x <- NULL
   to_y <- NULL
   x <- NULL
@@ -49,12 +50,12 @@ draw_diagram <- function(nodes, relations, moderations) {
       dplyr::filter(include == TRUE) |>
       tibble::rowid_to_column(var = "relation_id") |>
       dplyr::left_join(
-        dplyr::select(nodes, source = label, from = node_id, from_x = x, from_y = y),
-        by = "source"
+        dplyr::select(nodes, origin = label, from = node_id, from_x = x, from_y = y),
+        by = "origin"
       ) |>
       dplyr::left_join(
-        dplyr::select(nodes, target = label, to = node_id, to_x = x, to_y = y),
-        by = "target"
+        dplyr::select(nodes, destination = label, to = node_id, to_x = x, to_y = y),
+        by = "destination"
       ) |>
       dplyr::mutate(
         by = nrow(nodes) + relation_id,
@@ -68,14 +69,14 @@ draw_diagram <- function(nodes, relations, moderations) {
       dplyr::mutate_if(is.factor, as.character) |>
       dplyr::filter(include == TRUE) |>
       dplyr::left_join(
-        dplyr::select(nodes, source = label, from = node_id),
-        by = "source"
+        dplyr::select(nodes, origin = label, from = node_id),
+        by = "origin"
       ) |>
       dplyr::left_join(
-        dplyr::select(relations, target = relation, to = by),
-        by = "target"
+        dplyr::select(relations, destination = relation, to = by),
+        by = "destination"
       ) |>
-      dplyr::select(-source, -target)
+      dplyr::select(-origin, -destination)
   }
 
   graph <- DiagrammeR::create_graph()
@@ -83,7 +84,7 @@ draw_diagram <- function(nodes, relations, moderations) {
 
   # Add the nodes:
 
-  for (i in 1:nrow(nodes)) {
+  for (i in base::seq_len(base::nrow(nodes))) {
     graph <- DiagrammeR::add_node(
       graph,
       label = nodes$label[[i]],
@@ -105,7 +106,7 @@ draw_diagram <- function(nodes, relations, moderations) {
   # Add the junctions between nodes:
 
   if (nrow(relations) > 0){
-    for (i in 1:nrow(relations)) {
+    for (i in base::seq_len(base::nrow(relations))) {
       graph <- DiagrammeR::add_node(
         graph,
         label = relations$by[[i]],
@@ -127,7 +128,7 @@ draw_diagram <- function(nodes, relations, moderations) {
   # Add the relationships:
   
   if (nrow(relations) > 0){
-    for (i in 1:nrow(relations)) {
+    for (i in base::seq_len(base::nrow(relations))) {
       graph <- DiagrammeR::add_edge(
         graph = graph,
         from = relations$from[[i]],
@@ -164,7 +165,7 @@ draw_diagram <- function(nodes, relations, moderations) {
   # Add the moderations:
 
   if (nrow(moderations) > 0) {
-    for (i in 1:nrow(moderations)) {
+    for (i in base::seq_len(base::nrow(moderations))) {
       graph <- DiagrammeR::add_edge(
         graph = graph,
         from = moderations$from[[i]],

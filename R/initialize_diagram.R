@@ -28,11 +28,11 @@ initialize_diagram <- function(){
   
   relations <- tibble::tibble(
     relation = base::as.character("cause2consequence"),
-    source = base::factor(
+    origin = base::factor(
       "cause",
       levels = base::unique(nodes$label)
     ),
-    target = base::factor(
+    destination = base::factor(
       "consequence",
       levels = base::unique(nodes$label)
     ),
@@ -48,11 +48,11 @@ initialize_diagram <- function(){
   )
   
   moderations <- tibble::tibble(
-    source = base::factor(
+    origin = base::factor(
       "moderator",
       levels = base::unique(nodes$label)
     ),
-    target = base::factor(
+    destination = base::factor(
       "cause2consequence",
       levels = unique(relations$relation)
     ),

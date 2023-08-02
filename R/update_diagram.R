@@ -15,7 +15,8 @@ update_diagram <- function(nodes, relations, moderations){
   arrowhead <- NULL
   shape <- NULL
   style <- NULL
-  target <- NULL
+  origin <- NULL
+  destination <- NULL
   include <- NULL
   relation <- NULL
   
@@ -31,12 +32,12 @@ update_diagram <- function(nodes, relations, moderations){
   relations <- relations |>
     dplyr::mutate(
       relation = base::as.character(relation),
-      source = base::factor(
-        source,
+      origin = base::factor(
+        origin,
         levels = base::unique(nodes$label)
       ),
-      target = base::factor(
-        target,
+      destination = base::factor(
+        destination,
         levels = base::unique(nodes$label)
       ),
       style = base::factor(style, levels = c("solid","dashed")),
@@ -47,12 +48,12 @@ update_diagram <- function(nodes, relations, moderations){
   
   moderations <- moderations |>
     dplyr::mutate(
-      source = base::factor(
-        source,
+      origin = base::factor(
+        origin,
         levels = base::unique(nodes$label)
       ),
-      target = base::factor(
-        target,
+      destination = base::factor(
+        destination,
         levels = unique(relations$relation)
       ),
       style = base::factor(style, levels = c("solid","dashed")),
