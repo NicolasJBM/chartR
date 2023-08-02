@@ -22,7 +22,7 @@ write_table_code <- function(table, name){
   
   lines <- tibble::tibble(
     columns = base::names(table),
-    classes = base::sapply(table, class)
+    classes = base::vapply(table, class, base::character(1))
   ) |>
     dplyr::mutate(
       lines = purrr::map2_chr(columns, classes, prepare_lines, table)

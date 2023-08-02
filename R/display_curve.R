@@ -106,5 +106,5 @@ display_curve <- function(selected_model){
     ggplot2::theme(legend.position = "none")
   
   top + down +
-    patchwork::plot_layout(widths = c(1), heights = c(2,1))
+    patchwork::plot_layout(widths = 1, heights = c(2,1))
 }
