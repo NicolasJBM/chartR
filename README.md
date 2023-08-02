@@ -5,6 +5,7 @@
 
 <!-- badges: start -->
 
+[![DOI](https://zenodo.org/badge/530249852.svg)](https://zenodo.org/badge/latestdoi/530249852)
 [![Lifecycle:
 experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://lifecycle.r-lib.org/articles/stages.html#experimental)
 [![CRAN
