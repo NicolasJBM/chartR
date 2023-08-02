@@ -1,12 +1,32 @@
 #' @name draw_score_differences
 #' @title Edit diagrams
 #' @author Nicolas Mangin
-#' @description Module facilitating the quick exploration of bivariate relationships.
+#' @description function showing how a set of selected observations differ from the mean of the whole group on a set of questions.
 #' @param scores Tibble.
 #' @param selection Character vector
-#' @return A set of graphs.
+#' @return A ggplot object ready for rendering.
+#' @importFrom dplyr all_of
+#' @importFrom dplyr case_when
+#' @importFrom dplyr filter
+#' @importFrom dplyr group_by
+#' @importFrom dplyr mutate
+#' @importFrom dplyr mutate_if
+#' @importFrom dplyr select_if
+#' @importFrom dplyr summarise
 #' @importFrom forcats fct_reorder
-#' @importFrom shinyWidgets radioGroupButtons
+#' @importFrom ggplot2 aes
+#' @importFrom ggplot2 coord_flip
+#' @importFrom ggplot2 geom_errorbar
+#' @importFrom ggplot2 geom_hline
+#' @importFrom ggplot2 geom_line
+#' @importFrom ggplot2 geom_pointrange
+#' @importFrom ggplot2 ggplot
+#' @importFrom ggplot2 scale_color_manual
+#' @importFrom ggplot2 theme
+#' @importFrom ggplot2 theme_minimal
+#' @importFrom tibble rownames_to_column
+#' @importFrom tidyr pivot_longer
+#' @importFrom tidyr replace_na
 #' @export
 
 
@@ -21,6 +41,7 @@ draw_score_differences <- function(scores, selection){
   upper <- NULL
   value <- NULL
   question <- NULL
+  stddev <- NULL
   
   scores <- scores |>
     dplyr::select_if(base::is.numeric) |>
@@ -38,13 +59,13 @@ draw_score_differences <- function(scores, selection){
     dplyr::group_by(question) |>
     dplyr::summarise(
       average = base::mean(value, na.rm = TRUE),
-      sd = stats::sd(value, na.rm = TRUE),
+      stddev = stats::sd(value, na.rm = TRUE),
       .groups = "drop"
     ) |>
-    tidyr::replace_na(base::list(sd = 0)) |>
+    tidyr::replace_na(base::list(stddev = 0)) |>
     dplyr::mutate(
-      lower = average - sd,
-      upper = average + sd,
+      lower = average - stddev,
+      upper = average + stddev,
       group = "selected"
     ) |>
     dplyr::mutate(col = dplyr::case_when(

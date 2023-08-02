@@ -6,11 +6,11 @@
 #' @return Write lines of codes creating the different parts of a diagram which can then be embedded in function or document.
 #' @importFrom DiagrammeR grVizOutput
 #' @importFrom rhandsontable rHandsontableOutput
+#' @importFrom shiny NS
 #' @importFrom shiny actionButton
 #' @importFrom shiny column
 #' @importFrom shiny fluidRow
 #' @importFrom shiny icon
-#' @importFrom shiny NS
 #' @importFrom shiny uiOutput
 #' @importFrom shinydashboardPlus box
 #' @export

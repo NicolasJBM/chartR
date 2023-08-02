@@ -22,10 +22,10 @@ draw_grade_density(
 \item{labels}{List. Names for axes and legends (for translations purposes)}
 }
 \value{
-ggplot2 density graph.
+A ggplot object ready for rendering.
 }
 \description{
-Function drawing grade density and positioning the student relative to the mean and median.
+Function drawing grade density and positioning the student relative to the mean and median and showing the status areas.
 }
 \author{
 Nicolas Mangin

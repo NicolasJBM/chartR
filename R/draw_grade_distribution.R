@@ -1,19 +1,21 @@
 #' @name draw_grade_distribution
 #' @title Display grade distribution
 #' @author Nicolas Mangin
-#' @description Function drawing the distribution of grades
+#' @description Function drawing the distribution of grades as a barplot.
 #' @param student_grades Tibble. Table with each "student" id, the maximum number of "points", and the "grade".
 #' @param pass Numeric. Value above which students validate.
 #' @param increment Numeric. Size of breaks.
-#' @return Plot a distribution.
+#' @return A ggplot object ready for rendering.
+#' @importFrom dplyr filter
+#' @importFrom dplyr mutate
 #' @importFrom ggplot2 aes
 #' @importFrom ggplot2 geom_histogram
 #' @importFrom ggplot2 geom_vline
 #' @importFrom ggplot2 ggplot
+#' @importFrom ggplot2 scale_x_continuous
+#' @importFrom ggplot2 theme
 #' @importFrom ggplot2 theme_minimal
-#' @importFrom ggplot2 xlim
-#' @importFrom stats median
-#' @importFrom stats sd
+#' @importFrom tidyr replace_na
 #' @export
 
 

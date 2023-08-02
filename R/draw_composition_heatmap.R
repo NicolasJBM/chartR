@@ -10,6 +10,7 @@
 #' @return A ggplot object ready for rendering.
 #' @importFrom dplyr full_join
 #' @importFrom dplyr group_by
+#' @importFrom dplyr mutate
 #' @importFrom dplyr right_join
 #' @importFrom dplyr summarise
 #' @importFrom ggplot2 aes

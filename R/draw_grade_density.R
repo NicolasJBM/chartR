@@ -1,20 +1,28 @@
 #' @name draw_grade_density
 #' @title Grade density
 #' @author Nicolas Mangin
-#' @description Function drawing grade density and positioning the student relative to the mean and median.
+#' @description Function drawing grade density and positioning the student relative to the mean and median and showing the status areas.
 #' @param grades Tibble. List of grades of all students. Three necessary variables: student, points, grade.
 #' @param studentid Character. ID of the student.
 #' @param structure Tibble. Variables: threshold, status, color, and comment. Comment is not necessary.
 #' @param labels List. Names for axes and legends (for translations purposes)
-#' @return ggplot2 density graph.
+#' @return A ggplot object ready for rendering.
+#' @importFrom dplyr group_by
+#' @importFrom dplyr mutate
 #' @importFrom ggplot2 aes
 #' @importFrom ggplot2 annotate
-#' @importFrom ggplot2 geom_density
+#' @importFrom ggplot2 geom_area
+#' @importFrom ggplot2 geom_line
 #' @importFrom ggplot2 geom_vline
 #' @importFrom ggplot2 ggplot
+#' @importFrom ggplot2 scale_fill_manual
 #' @importFrom ggplot2 scale_x_continuous
-#' @importFrom ggplot2 theme_light
+#' @importFrom ggplot2 theme
+#' @importFrom ggplot2 theme_minimal
+#' @importFrom ggplot2 xlab
+#' @importFrom ggplot2 xlim
 #' @importFrom ggplot2 ylab
+#' @importFrom ggplot2 ylim
 #' @export
 
 

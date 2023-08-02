@@ -1,5 +1,5 @@
 #' @name write_table_code
-#' @title Write a table as code
+#' @title Write a relation table as diagram code
 #' @author Nicolas Mangin
 #' @description Take a table and transforms it into lines of code which can be written and inserted.
 #' @param table Data.frame or tibble. Table which should be written as code.

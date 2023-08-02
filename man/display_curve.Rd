@@ -10,7 +10,7 @@ display_curve(selected_model)
 \item{selected_model}{Tibble. Data produced by the function statistics_compute and stored in statistics$models for each question.}
 }
 \value{
-Plot a curve.
+A ggplot object ready for rendering.
 }
 \description{
 Function drawing the IRT curve associated to a selected question.

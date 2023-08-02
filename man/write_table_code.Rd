@@ -2,7 +2,7 @@
 % Please edit documentation in R/write_table_code.R
 \name{write_table_code}
 \alias{write_table_code}
-\title{Write a table as code}
+\title{Write a relation table as diagram code}
 \usage{
 write_table_code(table, name)
 }

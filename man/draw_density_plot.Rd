@@ -2,7 +2,7 @@
 % Please edit documentation in R/draw_density_plot.R
 \name{draw_density_plot}
 \alias{draw_density_plot}
-\title{Edit diagrams}
+\title{Draw a density plot}
 \usage{
 draw_density_plot(
   scores,
@@ -27,10 +27,10 @@ draw_density_plot(
 \item{slctpntsize}{Double.}
 }
 \value{
-A set of graphs.
+A ggplot object ready for rendering.
 }
 \description{
-Module facilitating the quick exploration of bivariate relationships.
+Function drawing the 2D density of students along two dimensions selected by the user.
 }
 \author{
 Nicolas Mangin

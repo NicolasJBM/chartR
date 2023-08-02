@@ -1,7 +1,7 @@
 #' @name initialize_diagram
 #' @title Create a starting diagram
 #' @author Nicolas Mangin
-#' @description Function creating a basic diagram serving as a basis to be adjusted.
+#' @description Function creating a basic diagram serving as a basis to be adjusted with the edit_diagram module.
 #' @return A list of tibbles specifying nodes, relations, and moderations.
 #' @importFrom tibble tibble
 #' @export

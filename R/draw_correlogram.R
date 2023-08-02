@@ -1,9 +1,10 @@
 #' @name draw_correlogram
 #' @title Correlogram
 #' @author Nicolas Mangin
-#' @description Function creating a correlogram.
+#' @description Function creating a correlogram of scores.
 #' @param scores Tibble. Table showing the different scores associated to various observations.
 #' @return A ggplot object ready for rendering.
+#' @importFrom dplyr select_if
 #' @importFrom ggcorrplot cor_pmat
 #' @importFrom ggcorrplot ggcorrplot
 #' @export

@@ -8,16 +8,17 @@
 #' @return A ggplot object ready for rendering.
 #' @importFrom dplyr full_join
 #' @importFrom dplyr group_by
+#' @importFrom dplyr mutate
 #' @importFrom dplyr summarise
 #' @importFrom ggplot2 aes
 #' @importFrom ggplot2 coord_flip
+#' @importFrom ggplot2 element_text
 #' @importFrom ggplot2 geom_bar
 #' @importFrom ggplot2 ggplot
 #' @importFrom ggplot2 theme
 #' @importFrom ggplot2 theme_minimal
 #' @importFrom ggplot2 xlab
 #' @importFrom ggplot2 ylab
-#' @importFrom ggplot2 element_text
 #' @importFrom tidyr replace_na
 #' @export
 

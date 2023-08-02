@@ -3,19 +3,34 @@
 #' @author Nicolas Mangin
 #' @description Function drawing the IRT curve associated to a selected question.
 #' @param selected_model Tibble. Data produced by the function statistics_compute and stored in statistics$models for each question.
-#' @return Plot a curve.
-#' @import patchwork
+#' @return A ggplot object ready for rendering.
+#' @importFrom dplyr arrange
+#' @importFrom dplyr case_when
 #' @importFrom dplyr filter
+#' @importFrom dplyr group_by
 #' @importFrom dplyr mutate
-#' @importFrom ggplot2 ggplot
+#' @importFrom dplyr n
+#' @importFrom dplyr ntile
+#' @importFrom dplyr select
+#' @importFrom dplyr summarise
+#' @importFrom dplyr summarise_all
+#' @importFrom dplyr ungroup
 #' @importFrom ggplot2 aes
-#' @importFrom ggplot2 geom_histogram
-#' @importFrom ggplot2 xlim
-#' @importFrom ggplot2 ylim
-#' @importFrom ggplot2 labs
+#' @importFrom ggplot2 geom_abline
+#' @importFrom ggplot2 geom_bar
+#' @importFrom ggplot2 geom_hline
 #' @importFrom ggplot2 geom_point
 #' @importFrom ggplot2 geom_smooth
-#' @importFrom ggplot2 scale_y_reverse
+#' @importFrom ggplot2 geom_vline
+#' @importFrom ggplot2 ggplot
+#' @importFrom ggplot2 labs
+#' @importFrom ggplot2 scale_color_manual
+#' @importFrom ggplot2 scale_fill_manual
+#' @importFrom ggplot2 scale_x_continuous
+#' @importFrom ggplot2 theme
+#' @importFrom ggplot2 theme_minimal
+#' @importFrom patchwork plot_layout
+#' @importFrom tibble tibble
 #' @export
 
 display_curve <- function(selected_model){

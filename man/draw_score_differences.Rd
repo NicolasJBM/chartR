@@ -12,10 +12,10 @@ draw_score_differences(scores, selection)
 \item{selection}{Character vector}
 }
 \value{
-A set of graphs.
+A ggplot object ready for rendering.
 }
 \description{
-Module facilitating the quick exploration of bivariate relationships.
+function showing how a set of selected observations differ from the mean of the whole group on a set of questions.
 }
 \author{
 Nicolas Mangin

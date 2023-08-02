@@ -13,7 +13,7 @@ draw_correlogram(scores)
 A ggplot object ready for rendering.
 }
 \description{
-Function creating a correlogram.
+Function creating a correlogram of scores.
 }
 \author{
 Nicolas Mangin

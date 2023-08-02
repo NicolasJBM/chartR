@@ -10,7 +10,7 @@ initialize_diagram()
 A list of tibbles specifying nodes, relations, and moderations.
 }
 \description{
-Function creating a basic diagram serving as a basis to be adjusted.
+Function creating a basic diagram serving as a basis to be adjusted with the edit_diagram module.
 }
 \author{
 Nicolas Mangin

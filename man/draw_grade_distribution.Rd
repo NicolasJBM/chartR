@@ -14,10 +14,10 @@ draw_grade_distribution(student_grades, pass, increment)
 \item{increment}{Numeric. Size of breaks.}
 }
 \value{
-Plot a distribution.
+A ggplot object ready for rendering.
 }
 \description{
-Function drawing the distribution of grades
+Function drawing the distribution of grades as a barplot.
 }
 \author{
 Nicolas Mangin

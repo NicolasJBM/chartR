@@ -4,14 +4,14 @@
 #' @description Module facilitating the quick creation of diagrams embedded in functions or documents.
 #' @param id Character. ID of the module to connect the user interface to the appropriate server side.
 #' @return Write lines of codes creating the different parts of a diagram which can then be embedded in function or document.
-#' @importFrom DiagrammeR render_graph
 #' @importFrom DiagrammeR renderGrViz
+#' @importFrom DiagrammeR render_graph
 #' @importFrom rhandsontable hot_context_menu
 #' @importFrom rhandsontable hot_to_r
 #' @importFrom rhandsontable renderRHandsontable
 #' @importFrom rhandsontable rhandsontable
-#' @importFrom shiny moduleServer
 #' @importFrom shiny NS
+#' @importFrom shiny moduleServer
 #' @importFrom shiny observe
 #' @importFrom shiny observeEvent
 #' @importFrom shiny reactiveValues

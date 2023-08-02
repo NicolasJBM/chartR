@@ -1,15 +1,25 @@
 #' @name draw_density_plot
-#' @title Edit diagrams
+#' @title Draw a density plot
 #' @author Nicolas Mangin
-#' @description Module facilitating the quick exploration of bivariate relationships.
+#' @description Function drawing the 2D density of students along two dimensions selected by the user.
 #' @param scores Tibble.
 #' @param slctx Character. 
 #' @param slcty Character. 
 #' @param slctbkgalpha Double. 
 #' @param slctpntalpha Double.
 #' @param slctpntsize Double.
-#' @return A set of graphs.
-#' @importFrom shinyWidgets radioGroupButtons
+#' @return A ggplot object ready for rendering.
+#' @importFrom dplyr filter
+#' @importFrom dplyr mutate_all
+#' @importFrom ggplot2 aes
+#' @importFrom ggplot2 geom_density2d_filled
+#' @importFrom ggplot2 geom_point
+#' @importFrom ggplot2 geom_smooth
+#' @importFrom ggplot2 ggplot
+#' @importFrom ggplot2 theme_minimal
+#' @importFrom ggplot2 xlab
+#' @importFrom ggplot2 ylab
+#' @importFrom tidyr replace_na
 #' @export
 
 
