@@ -4,10 +4,12 @@
 \alias{edit_diagram_server}
 \title{Edit diagrams}
 \usage{
-edit_diagram_server(id)
+edit_diagram_server(id, diagramfolder = base::getwd())
 }
 \arguments{
 \item{id}{Character. ID of the module to connect the user interface to the appropriate server side.}
+
+\item{diagramfolder}{Character. Path to the folder which may contain diagrams.}
 }
 \value{
 Write lines of codes creating the different parts of a diagram which can then be embedded in function or document.
