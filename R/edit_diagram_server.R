@@ -41,6 +41,26 @@ edit_diagram_server <- function(id, diagramfolder = base::getwd()){
     
     # Initialize ###############################################################
     
+    arrowhead <- NULL
+    arrowtail <- NULL
+    color <- NULL
+    destination <- NULL
+    fillcolor <- NULL
+    ontcolor <- NULL
+    fontsize <- NULL
+    fontcolor <- NULL
+    height <- NULL
+    include <- NULL
+    label <- NULL
+    origin <- NULL
+    penwidth <- NULL
+    relation <- NULL
+    shape <- NULL
+    style <- NULL
+    width <- NULL
+    x <- NULL
+    y <- NULL
+    
     modrval <- shiny::reactiveValues()
     
     output$diagram <- shiny::renderUI({
@@ -48,8 +68,8 @@ edit_diagram_server <- function(id, diagramfolder = base::getwd()){
       if (base::dir.exists(diagramfolder)){
         files <- base::list.files(diagramfolder)
         diagrams <- files[stringr::str_detect(files, "^diagram_")]
-        diagrams <- diagrams[stringr::str_detect(files, "_nodes.xlsx$|_relations.xlsx$|_moderations.xlsx$")]
         diagrams <- base::unique(stringr::str_remove_all(diagrams, "^diagram_|_nodes.xlsx$|_relations.xlsx$|_moderations.xlsx$"))
+        
       } else diagrams <- c()
       modrval$diagrams <- c("newdiagram", diagrams)
       modrval$selection <- "newdiagram"
@@ -69,15 +89,56 @@ edit_diagram_server <- function(id, diagramfolder = base::getwd()){
         modrval$nodes <- readxl::read_excel(
           path = base::paste0(diagramfolder, "/diagram_", input$diagram, "_nodes.xlsx"),
           sheet = "nodes"
-        )
+        ) |>
+          dplyr::mutate(
+            label = base::as.character(label),
+            shape = base::as.character(shape),
+            x = base::as.numeric(x),
+            y = base::as.numeric(y),
+            width = base::as.numeric(width),
+            height = base::as.numeric(height),
+            penwidth = base::as.numeric(penwidth),
+            color = base::as.character(color),
+            fillcolor = base::as.character(fillcolor),
+            fontsize = base::as.numeric(fontsize),
+            fontcolor = base::as.character(fontcolor),
+            include = base::as.logical(include)
+          )
         modrval$relations <- readxl::read_excel(
           path = base::paste0(diagramfolder, "/diagram_", input$diagram, "_relations.xlsx"),
           sheet = "relations"
-        )
+        ) |>
+          dplyr::mutate(
+            relation = base::as.character(relation),
+            origin = base::as.character(origin),
+            destination = base::as.character(destination),
+            style = base::as.character(style),
+            color = base::as.character(color),
+            fontcolor = base::as.character(fontcolor),
+            fontsize = base::as.numeric(fontsize),
+            penwidth = base::as.numeric(penwidth),
+            arrowtail = base::as.character(arrowtail),
+            arrowhead = base::as.character(arrowhead),
+            label = base::as.character(label),
+            include = base::as.logical(include)
+          )
         modrval$moderations <- readxl::read_excel(
           path = base::paste0(diagramfolder, "/diagram_", input$diagram, "_moderations.xlsx"),
           sheet = "moderations"
-        )
+        ) |>
+          dplyr::mutate(
+            origin = base::as.character(origin),
+            destination = base::as.character(destination),
+            style = base::as.character(style),
+            color = base::as.character(color),
+            fontcolor = base::as.character(fontcolor),
+            fontsize = base::as.numeric(fontsize),
+            penwidth = base::as.numeric(penwidth),
+            arrowtail = base::as.character(arrowtail),
+            arrowhead = base::as.character(arrowhead),
+            label = base::as.character(label),
+            include = base::as.logical(include)
+          )
       }
     })
     
