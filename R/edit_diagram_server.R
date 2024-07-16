@@ -110,8 +110,8 @@ edit_diagram_server <- function(id, diagramfolder = base::getwd()){
         ) |>
           dplyr::mutate(
             relation = base::as.character(relation),
-            origin = base::as.character(origin),
-            destination = base::as.character(destination),
+            origin = base::factor(origin, levels = modrval$nodes$label),
+            destination = base::factor(destination, levels = modrval$nodes$label),
             style = base::as.character(style),
             color = base::as.character(color),
             fontcolor = base::as.character(fontcolor),
@@ -127,8 +127,8 @@ edit_diagram_server <- function(id, diagramfolder = base::getwd()){
           sheet = "moderations"
         ) |>
           dplyr::mutate(
-            origin = base::as.character(origin),
-            destination = base::as.character(destination),
+            origin = base::factor(origin, levels = modrval$nodes$label),
+            destination = base::factor(destination, levels = modrval$relations$relation),
             style = base::as.character(style),
             color = base::as.character(color),
             fontcolor = base::as.character(fontcolor),
