@@ -1,63 +1,23 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  <url>
-    <loc>/404.html</loc>
-  </url>
-  <url>
-    <loc>/LICENSE-text.html</loc>
-  </url>
-  <url>
-    <loc>/authors.html</loc>
-  </url>
-  <url>
-    <loc>/index.html</loc>
-  </url>
-  <url>
-    <loc>/reference/display_curve.html</loc>
-  </url>
-  <url>
-    <loc>/reference/draw_composition_barchart.html</loc>
-  </url>
-  <url>
-    <loc>/reference/draw_composition_heatmap.html</loc>
-  </url>
-  <url>
-    <loc>/reference/draw_composition_scatterplot.html</loc>
-  </url>
-  <url>
-    <loc>/reference/draw_correlogram.html</loc>
-  </url>
-  <url>
-    <loc>/reference/draw_density_plot.html</loc>
-  </url>
-  <url>
-    <loc>/reference/draw_diagram.html</loc>
-  </url>
-  <url>
-    <loc>/reference/draw_grade_density.html</loc>
-  </url>
-  <url>
-    <loc>/reference/draw_grade_distribution.html</loc>
-  </url>
-  <url>
-    <loc>/reference/draw_score_differences.html</loc>
-  </url>
-  <url>
-    <loc>/reference/edit_diagram_server.html</loc>
-  </url>
-  <url>
-    <loc>/reference/edit_diagram_ui.html</loc>
-  </url>
-  <url>
-    <loc>/reference/index.html</loc>
-  </url>
-  <url>
-    <loc>/reference/initialize_diagram.html</loc>
-  </url>
-  <url>
-    <loc>/reference/update_diagram.html</loc>
-  </url>
-  <url>
-    <loc>/reference/write_table_code.html</loc>
-  </url>
+<urlset xmlns = 'http://www.sitemaps.org/schemas/sitemap/0.9'>
+<url><loc>/404.html</loc></url>
+<url><loc>/LICENSE-text.html</loc></url>
+<url><loc>/authors.html</loc></url>
+<url><loc>/index.html</loc></url>
+<url><loc>/reference/display_curve.html</loc></url>
+<url><loc>/reference/draw_composition_barchart.html</loc></url>
+<url><loc>/reference/draw_composition_heatmap.html</loc></url>
+<url><loc>/reference/draw_composition_scatterplot.html</loc></url>
+<url><loc>/reference/draw_correlogram.html</loc></url>
+<url><loc>/reference/draw_density_plot.html</loc></url>
+<url><loc>/reference/draw_diagram.html</loc></url>
+<url><loc>/reference/draw_grade_density.html</loc></url>
+<url><loc>/reference/draw_grade_distribution.html</loc></url>
+<url><loc>/reference/draw_score_differences.html</loc></url>
+<url><loc>/reference/edit_diagram_server.html</loc></url>
+<url><loc>/reference/edit_diagram_ui.html</loc></url>
+<url><loc>/reference/index.html</loc></url>
+<url><loc>/reference/initialize_diagram.html</loc></url>
+<url><loc>/reference/update_diagram.html</loc></url>
+<url><loc>/reference/write_table_code.html</loc></url>
 </urlset>
+
