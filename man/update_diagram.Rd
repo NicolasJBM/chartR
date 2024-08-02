@@ -4,7 +4,7 @@
 \alias{update_diagram}
 \title{Update a diagram}
 \usage{
-update_diagram(nodes, relations, moderations)
+update_diagram(nodes, relations, moderations, translations)
 }
 \arguments{
 \item{nodes}{Tibble. Nodes with their properties.}
@@ -12,6 +12,8 @@ update_diagram(nodes, relations, moderations)
 \item{relations}{Tibble. Edges with their properties.}
 
 \item{moderations}{Tibble. Moderations with their properties.}
+
+\item{translations}{Tibble. Translations for the nodes labels.}
 }
 \value{
 A list of tibbles specifying nodes, relations, and moderations.

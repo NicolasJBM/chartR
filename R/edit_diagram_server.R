@@ -68,14 +68,19 @@ edit_diagram_server <- function(id, diagramfolder = base::getwd()){
       if (base::dir.exists(diagramfolder)){
         files <- base::list.files(diagramfolder)
         diagrams <- files[stringr::str_detect(files, "^diagram_")]
-        diagrams <- base::unique(stringr::str_remove_all(diagrams, "^diagram_|_nodes.xlsx$|_relations.xlsx$|_moderations.xlsx$"))
-        
+        diagrams <- base::unique(
+          stringr::str_remove_all(
+            diagrams,
+            "^diagram_|_nodes.xlsx$|_relations.xlsx$|_moderations.xlsx$|_translations.xlsx$"
+          )
+        )
       } else diagrams <- c()
       modrval$diagrams <- c("newdiagram", diagrams)
       modrval$selection <- "newdiagram"
       modrval$nodes <- NA
       modrval$relations <- NA
       modrval$moderations <- NA
+      modrval$translations <- NA
       shiny::selectInput(ns("diagram"), "Diagram:", choices = modrval$diagrams, selected = modrval$selection, width = "100%")
     })
     
@@ -85,6 +90,7 @@ edit_diagram_server <- function(id, diagramfolder = base::getwd()){
         modrval$nodes <- diagram$nodes
         modrval$relations <- diagram$relations
         modrval$moderations <- diagram$moderations
+        modrval$translations <- diagram$translations
       } else {
         modrval$nodes <- readxl::read_excel(
           path = base::paste0(diagramfolder, "/diagram_", input$diagram, "_nodes.xlsx"),
@@ -139,9 +145,22 @@ edit_diagram_server <- function(id, diagramfolder = base::getwd()){
             label = base::as.character(label),
             include = base::as.logical(include)
           )
+        modrval$translations <- readxl::read_excel(
+          path = base::paste0(diagramfolder, "/diagram_", input$diagram, "_translations.xlsx"),
+          sheet = "translations"
+        ) |>
+          dplyr::mutate_all(base::as.character())
+        modrval$languages <- base::names(modrval$translations)
       }
     })
     
+    output$select_language <- shiny::renderUI({
+      shiny::req(!base::is.null(modrval$languages))
+      shiny::req(base::length(modrval$languages) > 0)
+      shiny::selectInput(
+        ns("slctlang"), "Language:", choices = modrval$languages, selected = "label"
+      )
+    })
     
     
     shiny::observeEvent(input$save, {
@@ -161,6 +180,7 @@ edit_diagram_server <- function(id, diagramfolder = base::getwd()){
       shiny::req(!base::is.na(modrval$nodes))
       shiny::req(!base::is.na(modrval$relations))
       shiny::req(!base::is.na(modrval$moderations))
+      shiny::req(!base::is.na(modrval$translations))
       nodes <- modrval$nodes
       writexl::write_xlsx(
         base::list(nodes = nodes),
@@ -175,6 +195,11 @@ edit_diagram_server <- function(id, diagramfolder = base::getwd()){
       writexl::write_xlsx(
         base::list(moderations = moderations),
         base::paste0(diagramfolder, "/diagram_", input$diagname, "_moderations.xlsx")
+      )
+      translations <- modrval$translations
+      writexl::write_xlsx(
+        base::list(translations = translations),
+        base::paste0(diagramfolder, "/diagram_", input$diagname, "_translations.xlsx")
       )
       shinyalert::shinyalert(
         title = "Diagram saved!",
@@ -220,6 +245,18 @@ edit_diagram_server <- function(id, diagramfolder = base::getwd()){
         )
     })
     
+    output$edittranslations <- rhandsontable::renderRHandsontable({
+      shiny::req(!base::is.na(modrval$translations))
+      modrval$translations |>
+        rhandsontable::rhandsontable(
+          height = 400, width = "100%", stretchH = "all"
+        ) |>
+        rhandsontable::hot_col(c(1), readOnly = TRUE) |>
+        rhandsontable::hot_context_menu(
+          allowRowEdit = TRUE, allowColEdit = FALSE
+        )
+    })
+    
     shiny::observeEvent(input$refresh, {
       shiny::req(input$editnodes)
       shiny::req(input$editrelations)
@@ -227,10 +264,15 @@ edit_diagram_server <- function(id, diagramfolder = base::getwd()){
       nodes <- rhandsontable::hot_to_r(input$editnodes)
       relations <- rhandsontable::hot_to_r(input$editrelations)
       moderations <- rhandsontable::hot_to_r(input$editmoderations)
-      diagram <- chartR::update_diagram(nodes, relations, moderations)
+      translations <- rhandsontable::hot_to_r(input$edittranslations)
+      translations <- nodes |>
+        dplyr::select(label) |>
+        dplyr::left_join(translations, by = "label")
+      diagram <- chartR::update_diagram(nodes, relations, moderations, translations)
       modrval$nodes <- diagram$nodes
       modrval$relations <- diagram$relations
       modrval$moderations <- diagram$moderations
+      modrval$translations <- diagram$translations
     })
     
     
@@ -241,6 +283,7 @@ edit_diagram_server <- function(id, diagramfolder = base::getwd()){
       shiny::req(!base::is.na(modrval$nodes))
       shiny::req(!base::is.na(modrval$relations))
       shiny::req(!base::is.na(modrval$moderations))
+      shiny::req(!base::is.na(modrval$translations))
       
       shinybusy::show_modal_spinner(
         spin = "cube-grid",
@@ -251,7 +294,9 @@ edit_diagram_server <- function(id, diagramfolder = base::getwd()){
       chart <- chartR::draw_diagram(
         nodes = modrval$nodes,
         relations = modrval$relations,
-        moderations = modrval$moderations
+        moderations = modrval$moderations,
+        translations = modrval$translations,
+        language = input$slctlang
       ) |>
         DiagrammeR::render_graph()
       

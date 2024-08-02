@@ -22,7 +22,7 @@ edit_diagram_ui <- function(id){
     shiny::fluidRow(
       shiny::column(3, shiny::uiOutput(ns("diagram"))),
       shiny::column(
-        3,
+        2,
         shiny::actionButton(
           ns("load"), "Load", icon = shiny::icon("upload"),
           style = "background-color:#660000;color:#FFF;width:100%;
@@ -30,7 +30,7 @@ edit_diagram_ui <- function(id){
         )
       ),
       shiny::column(
-        3,
+        2,
         shiny::actionButton(
           ns("refresh"), "Refresh", icon = shiny::icon("rotate"),
           style = "background-color:#000066;color:#FFF;width:100%;
@@ -38,13 +38,14 @@ edit_diagram_ui <- function(id){
         )
       ),
       shiny::column(
-        3,
+        2,
         shiny::actionButton(
           ns("save"), "Save", icon = shiny::icon("floppy-disk"),
           style = "background-color:#006600;color:#FFF;width:100%;
           margin-top:25px;margin-bottom:25px;"
         )
-      )
+      ),
+      shiny::column(2, shiny::uiOutput(ns("select_language")))
     ),
     
     
@@ -94,6 +95,17 @@ edit_diagram_ui <- function(id){
           icon = shiny::icon("code"),
           background = NULL, gradient = FALSE,
           shiny::uiOutput(ns("displaycode"))
+        )
+      ),
+      shiny::column(
+        12,
+        shinydashboardPlus::box(
+          title = "Translations", status = "purple",
+          solidHeader = TRUE, width = 12, collapsible = TRUE,
+          collapsed = FALSE, closable = FALSE,
+          icon = shiny::icon("right-left"),
+          background = NULL, gradient = FALSE,
+          rhandsontable::rHandsontableOutput(ns("edittranslations"))
         )
       )
     )

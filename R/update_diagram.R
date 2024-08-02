@@ -5,11 +5,13 @@
 #' @param nodes       Tibble. Nodes with their properties.
 #' @param relations   Tibble. Edges with their properties.
 #' @param moderations Tibble. Moderations with their properties.
+#' @param translations Tibble. Translations for the nodes labels.
 #' @return A list of tibbles specifying nodes, relations, and moderations.
 #' @importFrom dplyr mutate
+#' @importFrom dplyr mutate_all
 #' @export
 
-update_diagram <- function(nodes, relations, moderations){
+update_diagram <- function(nodes, relations, moderations, translations){
   
   arrowtail <- NULL
   arrowhead <- NULL
@@ -62,10 +64,14 @@ update_diagram <- function(nodes, relations, moderations){
       include = base::as.logical(include)
     )
   
+  moderations <- moderations |>
+    dplyr::mutate_all(base::as.character())
+  
   diagram <- base::list(
     nodes = nodes,
     relations = relations,
-    moderations = moderations
+    moderations = moderations,
+    translations = translations
   )
   
   return(diagram)

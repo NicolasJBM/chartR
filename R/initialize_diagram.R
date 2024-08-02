@@ -67,10 +67,17 @@ initialize_diagram <- function(){
     include = base::as.logical(TRUE)
   )
   
+  translations <- tibble::tibble(
+    label = base::as.character(c("cause", "consequence", "moderator")),
+    en = base::as.character(c("cause", "consequence", "moderator")),
+    fr = base::as.character(c("cause", "consequence", "moderateur"))
+  )
+  
   diagram <- base::list(
     nodes = nodes,
     relations = relations,
-    moderations = moderations
+    moderations = moderations,
+    translations = translations
   )
   
   return(diagram)

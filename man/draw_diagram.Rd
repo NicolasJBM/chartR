@@ -4,7 +4,7 @@
 \alias{draw_diagram}
 \title{Create a diagram}
 \usage{
-draw_diagram(nodes, relations, moderations)
+draw_diagram(nodes, relations, moderations, translations, language)
 }
 \arguments{
 \item{nodes}{Tibble. Nodes with their properties.}
@@ -12,6 +12,10 @@ draw_diagram(nodes, relations, moderations)
 \item{relations}{Tibble. Edges with their properties.}
 
 \item{moderations}{Tibble. Moderations with their properties.}
+
+\item{translations}{Tibble. Translations for the nodes labels.}
+
+\item{language}{Character. Language to display.}
 }
 \value{
 A DiagrammeR object ready for rendering.

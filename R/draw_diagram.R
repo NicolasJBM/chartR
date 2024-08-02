@@ -5,6 +5,8 @@
 #' @param nodes       Tibble. Nodes with their properties.
 #' @param relations   Tibble. Edges with their properties.
 #' @param moderations Tibble. Moderations with their properties.
+#' @param translations Tibble. Translations for the nodes labels.
+#' @param language Character. Language to display.
 #' @return A DiagrammeR object ready for rendering.
 #' @importFrom DiagrammeR add_edge
 #' @importFrom DiagrammeR add_node
@@ -16,10 +18,12 @@
 #' @importFrom dplyr mutate
 #' @importFrom dplyr mutate_if
 #' @importFrom dplyr select
+#' @importFrom dplyr everything
 #' @importFrom tibble rowid_to_column
+#' @importFrom stringr str_replace_all
 #' @export
 
-draw_diagram <- function(nodes, relations, moderations) {
+draw_diagram <- function(nodes, relations, moderations, translations, language) {
 
   # Bind variables
   from_x <- NULL
@@ -35,8 +39,36 @@ draw_diagram <- function(nodes, relations, moderations) {
   to_y <- NULL
   x <- NULL
   y <- NULL
+  altlabel <- NULL
   
   # Necessary information to tables for connections and create graph:
+  
+  translate <- translations[,c("label", language)]
+  base::names(translate) <- c("label","altlabel")
+  translatenodes <- dplyr::select(translate, label, altlabel)
+  translateorig <- dplyr::select(translate, origin = label, altlabel)
+  translatedest <- dplyr::select(translate, destination = label, altlabel)
+  
+  nodes <- nodes |>
+    dplyr::left_join(translatenodes, by = "label") |>
+    dplyr::mutate(label = altlabel) |>
+    dplyr::select(-altlabel)
+  
+  relations <- relations |>
+    dplyr::left_join(translateorig, by = "origin") |>
+    dplyr::mutate(origin = altlabel) |>
+    dplyr::select(-altlabel)
+  
+  relations <- relations |>
+    dplyr::left_join(translatedest, by = "destination") |>
+    dplyr::mutate(destination = altlabel) |>
+    dplyr::select(-altlabel)
+  
+  moderations <- moderations |>
+    dplyr::left_join(translateorig, by = "origin") |>
+    dplyr::mutate(origin = altlabel) |>
+    dplyr::select(-altlabel)
+  
 
   nodes <- nodes |>
     dplyr::mutate_if(is.factor, as.character) |>
@@ -78,7 +110,7 @@ draw_diagram <- function(nodes, relations, moderations) {
       ) |>
       dplyr::select(-origin, -destination)
   }
-
+  
   graph <- DiagrammeR::create_graph()
 
 
