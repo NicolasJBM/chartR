@@ -50,35 +50,41 @@ draw_diagram <- function(nodes, relations, moderations, translations, language) 
   translatedest <- dplyr::select(translate, destination = label, altlabel)
   
   nodes <- nodes |>
+    dplyr::mutate_if(base::is.factor, base::as.character) |>
+    dplyr::mutate_if(base::is.logical, base::as.character) |>
     dplyr::left_join(translatenodes, by = "label") |>
     dplyr::mutate(label = altlabel) |>
     dplyr::select(-altlabel)
   
   relations <- relations |>
+    dplyr::mutate_if(base::is.factor, base::as.character) |>
+    dplyr::mutate_if(base::is.logical, base::as.character) |>
     dplyr::left_join(translateorig, by = "origin") |>
     dplyr::mutate(origin = altlabel) |>
     dplyr::select(-altlabel)
   
   relations <- relations |>
+    dplyr::mutate_if(base::is.factor, base::as.character) |>
+    dplyr::mutate_if(base::is.logical, base::as.character) |>
     dplyr::left_join(translatedest, by = "destination") |>
     dplyr::mutate(destination = altlabel) |>
     dplyr::select(-altlabel)
   
   moderations <- moderations |>
+    dplyr::mutate_if(base::is.factor, base::as.character) |>
+    dplyr::mutate_if(base::is.logical, base::as.character) |>
     dplyr::left_join(translateorig, by = "origin") |>
     dplyr::mutate(origin = altlabel) |>
     dplyr::select(-altlabel)
   
-
   nodes <- nodes |>
-    dplyr::mutate_if(is.factor, as.character) |>
     dplyr::filter(include == TRUE) |>
     tibble::rowid_to_column("node_id")
 
   
-  if (nrow(relations) > 0) {
+  if (base::nrow(relations) > 0) {
+    
     relations <- relations |>
-      dplyr::mutate_if(is.factor, as.character) |>
       dplyr::filter(include == TRUE) |>
       tibble::rowid_to_column(var = "relation_id") |>
       dplyr::left_join(
@@ -98,7 +104,6 @@ draw_diagram <- function(nodes, relations, moderations, translations, language) 
 
   if (nrow(moderations) > 0) {
     moderations <- moderations |>
-      dplyr::mutate_if(is.factor, as.character) |>
       dplyr::filter(include == TRUE) |>
       dplyr::left_join(
         dplyr::select(nodes, origin = label, from = node_id),
