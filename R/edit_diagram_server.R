@@ -28,6 +28,7 @@
 #' @importFrom shinyAce aceEditor
 #' @importFrom shinybusy remove_modal_spinner
 #' @importFrom shinybusy show_modal_spinner
+#' @importFrom dplyr mutate_all
 #' @importFrom stringr str_detect
 #' @importFrom stringr str_remove_all
 #' @importFrom writexl write_xlsx
@@ -248,6 +249,7 @@ edit_diagram_server <- function(id, diagramfolder = base::getwd()){
     output$edittranslations <- rhandsontable::renderRHandsontable({
       shiny::req(!base::is.na(modrval$translations))
       modrval$translations |>
+        dplyr::mutate_all(base::as.character) |>
         rhandsontable::rhandsontable(
           height = 400, width = "100%", stretchH = "all"
         ) |>
