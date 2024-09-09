@@ -43,6 +43,10 @@ draw_diagram <- function(nodes, relations, moderations, translations, language) 
   
   # Necessary information to tables for connections and create graph:
   
+  translations <- translations |>
+    dplyr::mutate_all(base::as.character) |>
+    dplyr::filter(label %in% base::as.character(nodes$label))
+  
   translate <- translations[,c("label", language)]
   base::names(translate) <- c("label","altlabel")
   translatenodes <- dplyr::select(translate, label, altlabel)
@@ -80,7 +84,6 @@ draw_diagram <- function(nodes, relations, moderations, translations, language) 
   nodes <- nodes |>
     dplyr::filter(include == TRUE) |>
     tibble::rowid_to_column("node_id")
-
   
   if (base::nrow(relations) > 0) {
     

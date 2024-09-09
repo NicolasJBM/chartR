@@ -64,7 +64,7 @@ update_diagram <- function(nodes, relations, moderations, translations){
       include = base::as.logical(include)
     )
   
-  moderations <- moderations |>
+  translations <- translations |>
     dplyr::mutate_all(base::as.character())
   
   diagram <- base::list(

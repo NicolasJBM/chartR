@@ -92,6 +92,7 @@ edit_diagram_server <- function(id, diagramfolder = base::getwd()){
         modrval$relations <- diagram$relations
         modrval$moderations <- diagram$moderations
         modrval$translations <- diagram$translations
+        modrval$languages <- base::names(diagram$translations)
       } else {
         modrval$nodes <- readxl::read_excel(
           path = base::paste0(diagramfolder, "/diagram_", input$diagram, "_nodes.xlsx"),
@@ -263,6 +264,7 @@ edit_diagram_server <- function(id, diagramfolder = base::getwd()){
       shiny::req(input$editnodes)
       shiny::req(input$editrelations)
       shiny::req(input$editmoderations)
+      shiny::req(input$edittranslations)
       nodes <- rhandsontable::hot_to_r(input$editnodes)
       relations <- rhandsontable::hot_to_r(input$editrelations)
       moderations <- rhandsontable::hot_to_r(input$editmoderations)
@@ -286,6 +288,7 @@ edit_diagram_server <- function(id, diagramfolder = base::getwd()){
       shiny::req(!base::is.na(modrval$relations))
       shiny::req(!base::is.na(modrval$moderations))
       shiny::req(!base::is.na(modrval$translations))
+      shiny::req(!base::is.null(input$slctlang))
       
       shinybusy::show_modal_spinner(
         spin = "cube-grid",
