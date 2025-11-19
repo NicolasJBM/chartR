@@ -4,7 +4,7 @@
 \alias{draw_grade_distribution}
 \title{Display grade distribution}
 \usage{
-draw_grade_distribution(student_grades, pass, increment)
+draw_grade_distribution(student_grades, pass, increment, facet)
 }
 \arguments{
 \item{student_grades}{Tibble. Table with each "student" id, the maximum number of "points", and the "grade".}
@@ -12,6 +12,8 @@ draw_grade_distribution(student_grades, pass, increment)
 \item{pass}{Numeric. Value above which students validate.}
 
 \item{increment}{Numeric. Size of breaks.}
+
+\item{facet}{Character. Names of the variable which should be used for faceting}
 }
 \value{
 A ggplot object ready for rendering.

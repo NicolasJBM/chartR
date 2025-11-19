@@ -5,6 +5,7 @@
 #' @param student_grades Tibble. Table with each "student" id, the maximum number of "points", and the "grade".
 #' @param pass Numeric. Value above which students validate.
 #' @param increment Numeric. Size of breaks.
+#' @param facet Character. Names of the variable which should be used for faceting
 #' @return A ggplot object ready for rendering.
 #' @importFrom dplyr filter
 #' @importFrom dplyr mutate
@@ -20,34 +21,82 @@
 
 
 
-draw_grade_distribution <- function(student_grades, pass, increment){
+draw_grade_distribution <- function(student_grades, pass, increment, facet){
   
   grade <- NULL
   passing <- NULL
   points <- NULL
+  avg <- NULL
+  high <- NULL
+  low <- NULL
+  med <- NULL
+  variable <- NULL
   
   student_grades <- student_grades |>
     dplyr::filter(points > 0) |>
     tidyr::replace_na(base::list(grade = 0)) |>
-    stats::na.omit()
+    base::as.data.frame() |>
+    dplyr::mutate(passing = grade >= pass)
   
-  student_grades |>
-    dplyr::mutate(passing = grade >= pass) |>
-    ggplot2::ggplot(ggplot2::aes(x = grade, fill = passing)) +
-    ggplot2::geom_histogram(
-      alpha = 0.5, color = "black",
-      breaks=base::seq(base::min(0, student_grades$grade), base::max(student_grades$points), by = increment)
-    ) +
-    ggplot2::geom_vline(xintercept = base::mean(student_grades$grade), color = "red", size = 2) +
-    ggplot2::geom_vline(xintercept = base::mean(student_grades$grade)-stats::sd(student_grades$grade), color = "red", size = 1, lty = 2) +
-    ggplot2::geom_vline(xintercept = base::mean(student_grades$grade)+stats::sd(student_grades$grade), color = "red", size = 1, lty = 2) +
-    ggplot2::geom_vline(xintercept = stats::median(student_grades$grade), color = "blue", size = 2) +
-    ggplot2::scale_x_continuous(
-      breaks = base::seq(0, base::max(student_grades$points), by = increment),
-      limits = c(base::min(0, student_grades$grade), base::max(student_grades$points, student_grades$grade))
-    ) +
-    ggplot2::theme_minimal() +
-    ggplot2::theme(legend.position = "none")
+  if (facet %in% base::names(student_grades)){
+    student_grades$variable <- student_grades[,facet]
+    groups <- base::unique(student_grades$variable)
+    student_grades <- student_grades |>
+      dplyr::mutate(variable = base::as.factor(variable))
+    
+    distributions <- base::list(base::length(groups))
+    
+    for (g in groups){
+      subgroup <- student_grades |>
+        dplyr::filter(variable == g)
+      
+      avg <- base::mean(subgroup$grade)
+      sdv <- stats::sd(subgroup$grade)
+      med <- stats::median(subgroup$grade)
+      low <- avg - sdv
+      high <- avg + sdv
+      
+      distributions[[g]] <- subgroup |>
+        ggplot2::ggplot(ggplot2::aes(x = grade, fill = passing)) +
+        ggplot2::geom_histogram(
+          alpha = 0.5, color = "black",
+          breaks=base::seq(base::min(0, student_grades$grade), base::max(student_grades$points), by = increment)
+        ) +
+        ggplot2::geom_vline(xintercept = avg, color = "red", linewidth = 2) +
+        ggplot2::geom_vline(xintercept = low, color = "red", linewidth = 1, linetype = 2) +
+        ggplot2::geom_vline(xintercept = high, color = "red", linewidth = 1, linetype = 2) +
+        ggplot2::geom_vline(xintercept = med, color = "blue", linewidth = 2) +
+        ggplot2::scale_x_continuous(
+          breaks = base::seq(0, base::max(student_grades$points), by = increment),
+          limits = c(base::min(0, student_grades$grade), base::max(student_grades$points, student_grades$grade))
+        ) +
+        ggplot2::theme_minimal() +
+        ggplot2::xlab(g) +
+        ggplot2::theme(legend.position = "none")
+    }
+    
+    plots <- distributions[[groups[1]]]
+    for (i in 2:base::length(distributions)) plots <- plots + distributions[[groups[i]]]
+    plots +
+      patchwork::plot_layout(ncol = 1)
+  } else {
+    student_grades |>
+      ggplot2::ggplot(ggplot2::aes(x = grade, fill = passing)) +
+      ggplot2::geom_histogram(
+        alpha = 0.5, color = "black",
+        breaks=base::seq(base::min(0, student_grades$grade), base::max(student_grades$points), by = increment)
+      ) +
+      ggplot2::geom_vline(xintercept = base::mean(student_grades$grade), color = "red", linewidth = 2) +
+      ggplot2::geom_vline(xintercept = base::mean(student_grades$grade)-stats::sd(student_grades$grade), color = "red", linewidth = 1, lty = 2) +
+      ggplot2::geom_vline(xintercept = base::mean(student_grades$grade)+stats::sd(student_grades$grade), color = "red", linewidth = 1, lty = 2) +
+      ggplot2::geom_vline(xintercept = stats::median(student_grades$grade), color = "blue", linewidth = 2) +
+      ggplot2::scale_x_continuous(
+        breaks = base::seq(0, base::max(student_grades$points), by = increment),
+        limits = c(base::min(0, student_grades$grade), base::max(student_grades$points, student_grades$grade))
+      ) +
+      ggplot2::theme_minimal() +
+      ggplot2::theme(legend.position = "none")
+  }
 }
 
 
