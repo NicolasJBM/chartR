@@ -68,9 +68,9 @@ draw_grade_density <- function(
     ggplot2::geom_area(alpha = 0.5) +
     ggplot2::geom_line(linewidth=1.5) +
     ggplot2::scale_fill_manual(labels=structure$status, values = col) +
-    ggplot2::geom_vline(xintercept = avg, color = "blue", size = 1.5, lty = 2) +
-    ggplot2::geom_vline(xintercept = med, color = "skyblue3", size = 1.5, lty = 2) +
-    ggplot2::geom_vline(xintercept = sg, color = "purple", size = 1.5) +
+    ggplot2::geom_vline(xintercept = avg, color = "blue", linewidth = 1.5, lty = 2) +
+    ggplot2::geom_vline(xintercept = med, color = "skyblue3", linewidth = 1.5, lty = 2) +
+    ggplot2::geom_vline(xintercept = sg, color = "purple", linewidth = 1.5) +
     ggplot2::annotate("text", label = labels$med, x = 1, y = maxy*0.95, color = "blue") +
     ggplot2::annotate("text", label = labels$avg, x = 1, y = maxy*0.90, color = "skyblue3") +
     ggplot2::annotate("text", label = labels$stu, x = 1, y = maxy*0.85, color = "purple") +
