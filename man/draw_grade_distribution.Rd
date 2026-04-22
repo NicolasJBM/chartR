@@ -4,10 +4,12 @@
 \alias{draw_grade_distribution}
 \title{Display grade distribution}
 \usage{
-draw_grade_distribution(student_grades, pass, increment, facet)
+draw_grade_distribution(student_grades, maximum, pass, increment, facet)
 }
 \arguments{
 \item{student_grades}{Tibble. Table with each "student" id, the maximum number of "points", and the "grade".}
+
+\item{maximum}{Double. Maximum grade.}
 
 \item{pass}{Numeric. Value above which students validate.}
 

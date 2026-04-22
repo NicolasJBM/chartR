@@ -3,6 +3,7 @@
 #' @author Nicolas Mangin
 #' @description Function drawing the distribution of grades as a barplot.
 #' @param student_grades Tibble. Table with each "student" id, the maximum number of "points", and the "grade".
+#' @param maximum Double. Maximum grade.
 #' @param pass Numeric. Value above which students validate.
 #' @param increment Numeric. Size of breaks.
 #' @param facet Character. Names of the variable which should be used for faceting
@@ -21,7 +22,7 @@
 
 
 
-draw_grade_distribution <- function(student_grades, pass, increment, facet){
+draw_grade_distribution <- function(student_grades, maximum, pass, increment, facet){
   
   grade <- NULL
   passing <- NULL
@@ -68,7 +69,7 @@ draw_grade_distribution <- function(student_grades, pass, increment, facet){
         ggplot2::geom_vline(xintercept = med, color = "blue", linewidth = 2) +
         ggplot2::scale_x_continuous(
           breaks = base::seq(0, base::max(student_grades$points), by = increment),
-          limits = c(base::min(0, student_grades$grade), base::max(student_grades$points, student_grades$grade))
+          limits = c(base::min(0, student_grades$grade), maximum)
         ) +
         ggplot2::theme_minimal() +
         ggplot2::xlab(g) +
@@ -92,7 +93,7 @@ draw_grade_distribution <- function(student_grades, pass, increment, facet){
       ggplot2::geom_vline(xintercept = stats::median(student_grades$grade), color = "blue", linewidth = 2) +
       ggplot2::scale_x_continuous(
         breaks = base::seq(0, base::max(student_grades$points), by = increment),
-        limits = c(base::min(0, student_grades$grade), base::max(student_grades$points, student_grades$grade))
+        limits = c(base::min(0, student_grades$grade), maximum)
       ) +
       ggplot2::theme_minimal() +
       ggplot2::theme(legend.position = "none")
