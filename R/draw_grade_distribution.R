@@ -34,8 +34,8 @@ draw_grade_distribution <- function(student_grades, maximum, pass, increment, fa
   variable <- NULL
   
   student_grades <- student_grades |>
-    dplyr::filter(points > 0) |>
     tidyr::replace_na(base::list(grade = 0)) |>
+    dplyr::filter(points >= 0) |>
     base::as.data.frame() |>
     dplyr::mutate(passing = grade >= pass)
   
@@ -61,15 +61,15 @@ draw_grade_distribution <- function(student_grades, maximum, pass, increment, fa
         ggplot2::ggplot(ggplot2::aes(x = grade, fill = passing)) +
         ggplot2::geom_histogram(
           alpha = 0.5, color = "black",
-          breaks=base::seq(base::min(0, student_grades$grade), base::max(student_grades$points), by = increment)
+          breaks=base::seq(base::min(-1, student_grades$grade), base::max(student_grades$points+1), by = increment)
         ) +
         ggplot2::geom_vline(xintercept = avg, color = "red", linewidth = 2) +
         ggplot2::geom_vline(xintercept = low, color = "red", linewidth = 1, linetype = 2) +
         ggplot2::geom_vline(xintercept = high, color = "red", linewidth = 1, linetype = 2) +
         ggplot2::geom_vline(xintercept = med, color = "blue", linewidth = 2) +
         ggplot2::scale_x_continuous(
-          breaks = base::seq(0, base::max(student_grades$points), by = increment),
-          limits = c(base::min(0, student_grades$grade), maximum)
+          breaks = base::seq(-1, base::max(student_grades$points+1), by = increment),
+          limits = c(base::min(-1, student_grades$grade+1), maximum)
         ) +
         ggplot2::theme_minimal() +
         ggplot2::xlab(g) +
@@ -85,15 +85,15 @@ draw_grade_distribution <- function(student_grades, maximum, pass, increment, fa
       ggplot2::ggplot(ggplot2::aes(x = grade, fill = passing)) +
       ggplot2::geom_histogram(
         alpha = 0.5, color = "black",
-        breaks=base::seq(base::min(0, student_grades$grade), base::max(student_grades$points), by = increment)
+        breaks=base::seq(base::min(-1, student_grades$grade), base::max(student_grades$points+1), by = increment)
       ) +
       ggplot2::geom_vline(xintercept = base::mean(student_grades$grade), color = "red", linewidth = 2) +
       ggplot2::geom_vline(xintercept = base::mean(student_grades$grade)-stats::sd(student_grades$grade), color = "red", linewidth = 1, lty = 2) +
       ggplot2::geom_vline(xintercept = base::mean(student_grades$grade)+stats::sd(student_grades$grade), color = "red", linewidth = 1, lty = 2) +
       ggplot2::geom_vline(xintercept = stats::median(student_grades$grade), color = "blue", linewidth = 2) +
       ggplot2::scale_x_continuous(
-        breaks = base::seq(0, base::max(student_grades$points), by = increment),
-        limits = c(base::min(0, student_grades$grade), maximum)
+        breaks = base::seq(-1, base::max(student_grades$points+1), by = increment),
+        limits = c(base::min(-1, student_grades$grade+1), maximum)
       ) +
       ggplot2::theme_minimal() +
       ggplot2::theme(legend.position = "none")
